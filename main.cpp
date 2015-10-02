@@ -26,6 +26,14 @@ int main(int argc, char** argv) {
     ui.actionZoom_In->setIcon(QIcon(":/icons/zoom-in.png"));
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 
+    /* set up the graphics area */
+    QGraphicsScene* scene = new QGraphicsScene(widget);
+    ui.graphicsView->setScene(scene);
+
+    /* just a test */
+    scene->addText("HELLO", QFont("Arial", 20));
+
+
     /* show the window and start the program */
     widget->show();
     return app.exec();
