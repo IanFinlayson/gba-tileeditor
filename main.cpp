@@ -14,6 +14,7 @@ int main(int argc, char** argv) {
     ui.actionOpen->setIcon(QIcon(":/icons/open.png"));
     ui.actionSave->setIcon(QIcon(":/icons/save.png"));
     ui.actionSave_As->setIcon(QIcon(":/icons/save-as.png"));
+    ui.actionSet_Image->setIcon(QIcon(":/icons/set-image.png")); 
     ui.actionQuit->setIcon(QIcon(":/icons/quit.png"));
 
     ui.actionCopy->setIcon(QIcon(":/icons/copy.png"));

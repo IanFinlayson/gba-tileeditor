@@ -41,6 +41,7 @@
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="actionSet_Image"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -78,6 +79,7 @@
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
+   <addaction name="actionSet_Image"/>
    <addaction name="separator"/>
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
@@ -227,6 +229,14 @@
    </property>
    <property name="shortcut">
     <string>-</string>
+   </property>
+  </action>
+  <action name="actionSet_Image">
+   <property name="text">
+    <string>Set &amp;Image</string>
+   </property>
+   <property name="toolTip">
+    <string>Set the tile image used for this tile map</string>
    </property>
   </action>
  </widget>
