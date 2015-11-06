@@ -15,6 +15,21 @@ class EditorWindow : public QMainWindow {
         void setup_triggers(Ui_MainWindow* ui);
 
     public slots:
-        void close( );
+        void on_new( );
+        void on_open( );
+        void on_save( );
+        void on_save_as( );
+        void on_set_image( );
+        void on_quit( );
+
+        void on_undo( );
+        void on_redo( );
+        void on_cut( );
+        void on_copy( );
+        void on_paste( );
+
+        void on_grid( );
+        void on_zoom_in( );
+        void on_zoom_out( );
 };
 
