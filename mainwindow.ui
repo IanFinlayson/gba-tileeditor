@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>681</width>
+    <width>643</width>
     <height>524</height>
    </rect>
   </property>
@@ -16,10 +16,16 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="cursor" stdset="0">
-       <cursorShape>ArrowCursor</cursorShape>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
+      <widget class="QGraphicsView" name="map_view">
+       <property name="cursor" stdset="0">
+        <cursorShape>ArrowCursor</cursorShape>
+       </property>
+      </widget>
+      <widget class="QGraphicsView" name="palette_view"/>
      </widget>
     </item>
    </layout>
@@ -29,7 +35,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>681</width>
+     <width>643</width>
      <height>18</height>
     </rect>
    </property>

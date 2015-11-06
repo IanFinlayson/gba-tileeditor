@@ -27,13 +27,15 @@ int main(int argc, char** argv) {
     ui.actionZoom_In->setIcon(QIcon(":/icons/zoom-in.png"));
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 
-    /* set up the graphics area */
-    QGraphicsScene* scene = new QGraphicsScene(widget);
-    ui.graphicsView->setScene(scene);
+    /* set up the graphics areas */
+    QGraphicsScene* map = new QGraphicsScene(widget);
+    QGraphicsScene* palette = new QGraphicsScene(widget);
+    ui.map_view->setScene(map);
+    ui.palette_view->setScene(palette);
 
     /* just a test */
-    scene->addText("HELLO", QFont("Arial", 20));
-
+    map->addText("MAP", QFont("Arial", 20));
+    palette->addText("PALETTE", QFont("Arial", 20));
 
     /* show the window and start the program */
     widget->show();
