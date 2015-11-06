@@ -1,7 +1,8 @@
 # ignore Qt generated thingies
 Makefile
 qrc_icons.cpp
-ui_mainwindow.h
+ui_*.h
+moc_*.cpp
 
 # ignore object and executable files
 gba-tileeditor

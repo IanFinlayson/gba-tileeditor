@@ -1,15 +1,41 @@
-#include <iostream>
+/* main.cpp
+ * main function for the tile editor GUI */
 
+#include "main.h"
 #include "ui_mainwindow.h"
+
+/* functions for the EditorWindow object which just contains callbacks
+ * for every action */
+
+EditorWindow::EditorWindow(QApplication* app) {
+    this->app = app;
+}
+
+/* set up all the signal and slot triggers for each action */
+void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
+    QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
+
+
+}
+
+/* called when the quit action is taken */
+void EditorWindow::close( ) {
+    app->exit( );
+}
+
+
+
+
+
 
 int main(int argc, char** argv) {
     /* pass flags to QT */
     QApplication app(argc, argv);
 
     /* load the ui from the one QT generates from the ui file */
-    QMainWindow* widget = new QMainWindow;
+    EditorWindow* window = new EditorWindow(&app);
     Ui_MainWindow ui;
-    ui.setupUi(widget);
+    ui.setupUi(window);
     ui.actionNew->setIcon(QIcon(":/icons/new.png"));
     ui.actionOpen->setIcon(QIcon(":/icons/open.png"));
     ui.actionSave->setIcon(QIcon(":/icons/save.png"));
@@ -28,8 +54,8 @@ int main(int argc, char** argv) {
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 
     /* set up the graphics areas */
-    QGraphicsScene* map = new QGraphicsScene(widget);
-    QGraphicsScene* palette = new QGraphicsScene(widget);
+    QGraphicsScene* map = new QGraphicsScene(window);
+    QGraphicsScene* palette = new QGraphicsScene(window);
     ui.map_view->setScene(map);
     ui.palette_view->setScene(palette);
 
@@ -38,7 +64,7 @@ int main(int argc, char** argv) {
     palette->addText("PALETTE", QFont("Arial", 20));
 
     /* show the window and start the program */
-    widget->show();
+    window->show();
     return app.exec();
 }
 

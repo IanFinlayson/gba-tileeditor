@@ -18,6 +18,7 @@ TEMPLATE = app
 
 # specify all the files we need
 SOURCES = main.cpp
+HEADERS = main.h
 FORMS = mainwindow.ui
 RESOURCES = icons.qrc
 
