@@ -20,12 +20,12 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QGraphicsView" name="map_view">
+      <widget class="MapView" name="map_view">
        <property name="cursor" stdset="0">
         <cursorShape>ArrowCursor</cursorShape>
        </property>
       </widget>
-      <widget class="QGraphicsView" name="palette_view"/>
+      <widget class="PaletteView" name="palette_view"/>
      </widget>
     </item>
    </layout>
@@ -246,6 +246,18 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MapView</class>
+   <extends>QGraphicsView</extends>
+   <header>mapview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PaletteView</class>
+   <extends>QGraphicsView</extends>
+   <header>paletteview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

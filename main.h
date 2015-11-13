@@ -1,8 +1,14 @@
 /* main.h
- * contains the class declaration for the EditorWindow
+ * contains the class declarations
  * this has to be in a header file for QT to function */
 
+#ifndef MAIN_H
+#define MAIN_H
+
 #include "ui_mainwindow.h"
+
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 class EditorWindow : public QMainWindow {
     Q_OBJECT
@@ -42,4 +48,6 @@ class EditorWindow : public QMainWindow {
         void on_zoom_in( );
         void on_zoom_out( );
 };
+
+#endif
 
