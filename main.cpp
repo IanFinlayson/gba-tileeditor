@@ -2,6 +2,7 @@
  * main function for the tile editor GUI */
 
 #include <QMessageBox>
+#include <QFileDialog>
 #include "main.h"
 #include "ui_mainwindow.h"
 
@@ -10,6 +11,11 @@
 
 EditorWindow::EditorWindow(QApplication* app) {
     this->app = app;
+}
+
+void EditorWindow::setAreas( QGraphicsScene* map, QGraphicsScene* palette) {
+    this->map = map;
+    this->palette = palette;
 }
 
 /* set up all the signal and slot triggers for each action */
@@ -31,7 +37,6 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
 }
 
 /* called when the various actions are taken */
-
 void EditorWindow::on_new( ) {
     QMessageBox msgBox;
     msgBox.setText("New is not implemented yet :(");
@@ -57,9 +62,21 @@ void EditorWindow::on_save_as( ) {
 }
 
 void EditorWindow::on_set_image( ) {
-    QMessageBox msgBox;
-    msgBox.setText("Setting Image is not implemented yet :(");
-    msgBox.exec( ); 
+    /* get the file name of the file they wish to use */
+    QString file = QFileDialog::getOpenFileName(this,
+         tr("Set Image"), "", tr("Image Files (*.png)"));
+
+    /* check if the string is null */
+    if (file.isNull( )) {
+        return;
+    }
+
+    /* set the image itself */
+    tiles.load(file);
+
+    /* display it in the bottom area */
+    QPixmap p = QPixmap::fromImage(tiles);
+    palette->addPixmap(p);
 }
 
 void EditorWindow::on_quit( ) {
@@ -117,17 +134,21 @@ void EditorWindow::on_zoom_out( ) {
 
 
 
-
-
+/* main entry point */
 int main(int argc, char** argv) {
     /* pass flags to QT */
     QApplication app(argc, argv);
 
-    /* load the ui from the one QT generates from the ui file */
+    /* load the ui from the one QT generates from the ui file */ 
     EditorWindow* window = new EditorWindow(&app);
     Ui_MainWindow ui;
     ui.setupUi(window);
     window->setup_triggers(&ui);
+
+    /* set up the graphics areas */ 
+    QGraphicsScene* map = new QGraphicsScene(window);
+    QGraphicsScene* palette = new QGraphicsScene(window);
+    window->setAreas(map, palette);
 
     ui.actionNew->setIcon(QIcon(":/icons/new.png"));
     ui.actionOpen->setIcon(QIcon(":/icons/open.png"));
@@ -146,15 +167,11 @@ int main(int argc, char** argv) {
     ui.actionZoom_In->setIcon(QIcon(":/icons/zoom-in.png"));
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 
-    /* set up the graphics areas */
-    QGraphicsScene* map = new QGraphicsScene(window);
-    QGraphicsScene* palette = new QGraphicsScene(window);
     ui.map_view->setScene(map);
     ui.palette_view->setScene(palette);
 
     /* just a test */
     map->addText("MAP", QFont("Arial", 20));
-    palette->addText("PALETTE", QFont("Arial", 20));
 
     /* show the window and start the program */
     window->show();

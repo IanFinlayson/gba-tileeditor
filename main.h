@@ -8,10 +8,20 @@ class EditorWindow : public QMainWindow {
     Q_OBJECT
 
     private:
+        /* pointer to the main app so we can close it */
         QApplication* app;
+
+        /* pointers to the map and palette area */
+        QGraphicsScene* map;
+        QGraphicsScene* palette;
+
+        /* the image used as the tile sheet */
+        QImage tiles;
+
 
     public:
         EditorWindow(QApplication* app);
+        void setAreas(QGraphicsScene* map, QGraphicsScene* palette);
         void setup_triggers(Ui_MainWindow* ui);
 
     public slots:
