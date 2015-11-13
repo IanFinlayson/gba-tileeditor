@@ -76,6 +76,7 @@ void EditorWindow::on_set_image( ) {
 
     /* display it in the bottom area */
     QPixmap p = QPixmap::fromImage(tiles);
+    palette->clear( );
     palette->addPixmap(p);
 }
 
@@ -168,13 +169,19 @@ int main(int argc, char** argv) {
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 
     ui.map_view->setScene(map);
+    ui.map_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     ui.palette_view->setScene(palette);
+    ui.palette_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     /* just a test */
     map->addText("MAP", QFont("Arial", 20));
 
     /* show the window and start the program */
     window->show();
+
+    /* open an image to start */
+    window->on_set_image( );
+
     return app.exec();
 }
 
