@@ -19,6 +19,6 @@ TEMPLATE = app
 # specify all the files we need
 SOURCES = main.cpp
 HEADERS = main.h paletteview.h mapview.h
-FORMS = mainwindow.ui
+FORMS = mainwindow.ui newmap.ui
 RESOURCES = icons.qrc
 

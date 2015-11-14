@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include "main.h"
 #include "ui_mainwindow.h"
+#include "ui_newmap.h"
 
 /* functions for the EditorWindow object which just contains callbacks
  * for every action */
@@ -40,9 +41,10 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
 
 /* called when the various actions are taken */
 void EditorWindow::on_new( ) {
-    QMessageBox msgBox;
-    msgBox.setText("New is not implemented yet :(");
-    msgBox.exec( ); 
+    QDialog* dialog = new QDialog(0, 0);
+    Ui_NewDialog ui;
+    ui.setupUi(dialog);
+    dialog->show( ); 
 }
 
 void EditorWindow::on_open( ) {
@@ -213,9 +215,6 @@ int main(int argc, char** argv) {
 
     /* show the window */
     window->show();
-
-    /* open an image to start */
-    window->on_set_image( );
 
     /* start the program */
     return app.exec();
