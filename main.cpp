@@ -9,13 +9,12 @@
 #include "ui_mainwindow.h"
 #include "ui_newmap.h"
 
-/* functions for the EditorWindow object which just contains callbacks
- * for every action */
-
+/* constructor which stores the app so we can quit later */
 EditorWindow::EditorWindow(QApplication* app) {
     this->app = app;
 }
 
+/* set the map and palette areas */
 void EditorWindow::setAreas( QGraphicsScene* map, QGraphicsScene* palette) {
     this->map = map;
     this->palette = palette;
@@ -166,9 +165,6 @@ void PaletteView::mousePressEvent(QMouseEvent* e) {
     QMessageBox msgBox;
     msgBox.setText(message);
     msgBox.exec( );
-
-
-
 }
 
 
