@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>643</width>
-     <height>18</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -47,7 +47,7 @@
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
-    <addaction name="actionSet_Image"/>
+    <addaction name="actionChange_Properties"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -85,7 +85,7 @@
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
-   <addaction name="actionSet_Image"/>
+   <addaction name="actionChange_Properties"/>
    <addaction name="separator"/>
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
@@ -237,12 +237,12 @@
     <string>-</string>
    </property>
   </action>
-  <action name="actionSet_Image">
+  <action name="actionChange_Properties">
    <property name="text">
-    <string>Set &amp;Image</string>
+    <string>Change &amp;Properties</string>
    </property>
    <property name="toolTip">
-    <string>Set the tile image used for this tile map</string>
+    <string>Change the base image or the map size</string>
    </property>
   </action>
  </widget>

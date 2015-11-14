@@ -35,7 +35,7 @@ class EditorWindow : public QMainWindow {
         void on_open( );
         void on_save( );
         void on_save_as( );
-        void on_set_image( );
+        void on_change_properties( );
         void on_quit( );
 
         void on_undo( );

@@ -36,7 +36,7 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionPaste, SIGNAL(triggered()), this, SLOT(on_paste()));
     QObject::connect(ui->actionZoom_In, SIGNAL(triggered()), this, SLOT(on_zoom_in()));
     QObject::connect(ui->actionZoom_Out, SIGNAL(triggered()), this, SLOT(on_zoom_out()));
-    QObject::connect(ui->actionSet_Image, SIGNAL(triggered()), this, SLOT(on_set_image()));
+    QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
 }
 
 /* called when the various actions are taken */
@@ -65,7 +65,7 @@ void EditorWindow::on_save_as( ) {
     msgBox.exec( ); 
 }
 
-void EditorWindow::on_set_image( ) {
+void EditorWindow::on_change_properties( ) {
     /* get the file name of the file they wish to use */
     QString file = QFileDialog::getOpenFileName(this,
          tr("Set Image"), "", tr("Image Files (*.png)"));
@@ -193,7 +193,7 @@ int main(int argc, char** argv) {
     ui.actionOpen->setIcon(QIcon(":/icons/open.png"));
     ui.actionSave->setIcon(QIcon(":/icons/save.png"));
     ui.actionSave_As->setIcon(QIcon(":/icons/save-as.png"));
-    ui.actionSet_Image->setIcon(QIcon(":/icons/set-image.png")); 
+    ui.actionChange_Properties->setIcon(QIcon(":/icons/change-properties.png")); 
     ui.actionQuit->setIcon(QIcon(":/icons/quit.png"));
     ui.actionCopy->setIcon(QIcon(":/icons/copy.png"));
     ui.actionCut->setIcon(QIcon(":/icons/cut.png"));
