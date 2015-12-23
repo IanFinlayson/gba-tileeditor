@@ -73,7 +73,7 @@
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="setButon">
           <property name="text">
            <string>Set...</string>
           </property>
@@ -99,9 +99,25 @@
     </widget>
    </item>
   </layout>
-  <zorder>verticalLayoutWidget</zorder>
-  <zorder>label_3</zorder>
-  <zorder>verticalLayoutWidget</zorder>
+  <action name="actionSetImage">
+   <property name="text">
+    <string>Set Image</string>
+   </property>
+   <property name="toolTip">
+    <string>Set the Image</string>
+   </property>
+  </action>
+  <action name="actionOK">
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </action>
+  <action name="actionCancel">
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </action>
+  <zorder>buttonBox</zorder>
   <zorder>groupBox</zorder>
   <zorder>groupBox_2</zorder>
  </widget>

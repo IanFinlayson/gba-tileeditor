@@ -21,7 +21,8 @@ void EditorWindow::setAreas( QGraphicsScene* map, QGraphicsScene* palette) {
 }
 
 /* set up all the signal and slot triggers for each action */
-void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
+void EditorWindow::setup_triggers(Ui_MainWindow* ui, Ui_NewDialog* nd) {
+    /* the main window actions */
     QObject::connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(on_new()));
     QObject::connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(on_open()));
     QObject::connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_save()));
@@ -36,6 +37,17 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionZoom_In, SIGNAL(triggered()), this, SLOT(on_zoom_in()));
     QObject::connect(ui->actionZoom_Out, SIGNAL(triggered()), this, SLOT(on_zoom_out()));
     QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
+    
+    /* the new map dialog */
+    
+    QObject::connect(nd->actionOK, SIGNAL(triggered()), this, SLOT(nd_ok()));
+    
+    QObject::connect(nd->actionCancel, SIGNAL(triggered()), this, SLOT(nd_cancel()));
+
+    nd->setButon->setAction(nd->actionSetImage);
+    QObject::connect(nd->actionSetImage, SIGNAL(triggered()), this, SLOT(nd_set_image()));
+
+
 }
 
 /* called when the various actions are taken */
@@ -135,6 +147,24 @@ void EditorWindow::on_zoom_out( ) {
     msgBox.exec( );
 }
 
+void EditorWindow::nd_ok( ) {
+    QMessageBox msgBox;
+    msgBox.setText("OK");
+    msgBox.exec( );
+}
+
+void EditorWindow::nd_cancel( ) {
+    QMessageBox msgBox;
+    msgBox.setText("Cancel");
+    msgBox.exec( );
+}
+
+void EditorWindow::nd_set_image( ) {
+    QMessageBox msgBox;
+    msgBox.setText("setimage");
+    msgBox.exec( );
+}
+
 /* constructors for the view objects */
 PaletteView::PaletteView(QWidget* parent) : QGraphicsView(parent) {
 
@@ -173,11 +203,18 @@ int main(int argc, char** argv) {
     /* pass flags to QT */
     QApplication app(argc, argv);
 
-    /* load the ui from the one QT generates from the ui file */ 
+    /* load the main window ui from the one QT generates from the ui file */ 
     EditorWindow* window = new EditorWindow(&app);
     Ui_MainWindow ui;
     ui.setupUi(window);
-    window->setup_triggers(&ui);
+
+    /* load the new map dialog ui */
+    Ui_NewDialog nd;
+    QDialog* newmap_dialog = new QDialog( );
+    nd.setupUi(newmap_dialog);
+
+    /* set up all the triggers */
+    window->setup_triggers(&ui, &nd);
 
     /* set up the graphics areas */ 
     QGraphicsScene* map = new QGraphicsScene(window);
