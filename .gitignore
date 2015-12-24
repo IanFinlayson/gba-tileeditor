@@ -6,5 +6,6 @@ moc_*.cpp
 
 # ignore object and executable files
 gba-tileeditor
+*.gba
 *.o 
 
