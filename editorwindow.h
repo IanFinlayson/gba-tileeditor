@@ -6,7 +6,6 @@
 #define MAIN_H
 
 #include "ui_mainwindow.h"
-#include "ui_newmap.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -29,7 +28,7 @@ class EditorWindow : public QMainWindow {
     public:
         EditorWindow(QApplication* app);
         void setAreas(QGraphicsScene* map, QGraphicsScene* palette);
-        void setup_triggers(Ui_MainWindow* ui, Ui_NewDialog* nd);
+        void setup_triggers(Ui_MainWindow* ui);
 
     public slots:
         /* actions for the main window */
@@ -47,11 +46,6 @@ class EditorWindow : public QMainWindow {
         void on_grid( );
         void on_zoom_in( );
         void on_zoom_out( );
-
-        /* actions for the new file dialog */
-        void nd_ok( );
-        void nd_cancel( );
-        void nd_set_image( );
 };
 
 #endif

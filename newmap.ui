@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NewDialog</class>
- <widget class="QDialog" name="NewDialog">
+ <class>NewMapDialog</class>
+ <widget class="QDialog" name="NewMapDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>247</height>
+    <width>510</width>
+    <height>271</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,49 +17,14 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Map Size</string>
+      <string>Map Type</string>
      </property>
      <property name="checkable">
       <bool>false</bool>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Height</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="spinBox">
-          <property name="maximum">
-           <number>1024</number>
-          </property>
-          <property name="value">
-           <number>640</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="spinBox_2">
-          <property name="maximum">
-           <number>1024</number>
-          </property>
-          <property name="value">
-           <number>480</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Width</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QComboBox" name="comboBox"/>
       </item>
      </layout>
     </widget>
