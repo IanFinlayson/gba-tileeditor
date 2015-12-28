@@ -23,7 +23,6 @@ class NewDialog : public QDialog {
     public slots:
         void nd_ok( );
         void nd_cancel( );
-        void nd_set_image( );
 };
 
 #endif

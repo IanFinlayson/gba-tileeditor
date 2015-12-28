@@ -3,9 +3,6 @@ Makefile
 qrc_icons.cpp
 ui_*.h
 moc_*.cpp
-
-# ignore object and executable files
+*.o 
 gba-tileeditor
 *.gba
-*.o 
-
