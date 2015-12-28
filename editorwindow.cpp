@@ -46,7 +46,7 @@ void EditorWindow::on_new() {
     Ui_NewMapDialog ui;
     ui.setupUi(dialog);
 
-    // add the options for tile maps - these are regular, not affine ones...
+    /* add the options for tile maps - these are regular, not affine ones... */
     ui.comboBox->addItem("Regular 256x256");
     ui.comboBox->addItem("Regular 512x256");
     ui.comboBox->addItem("Regular 256x512");
@@ -57,10 +57,14 @@ void EditorWindow::on_new() {
     ui.comboBox->addItem("Affine 512x512");
     ui.comboBox->addItem("Affine 1024x1024");
 
-
-    // setup the triggers for this thing
+    /* setup the triggers for this thing */
     dialog->setup_triggers(&ui); 
     dialog->exec();
+
+    /* get the outcome of this */
+    int choice = dialog->getSelection();
+    printf("Choice is %d\n", choice);
+    fflush(stdout);
 }
 
 void EditorWindow::on_open() {

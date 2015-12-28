@@ -14,8 +14,9 @@ TARGET = gba-tileeditor
 TEMPLATE = app
 
 # specify all the files we need
-SOURCES = main.cpp editorwindow.cpp newdialog.cpp
-HEADERS = editorwindow.h newdialog.h paletteview.h mapview.h
+SOURCES = main.cpp editorwindow.cpp newdialog.cpp paletteview.cpp mapview.cpp \
+          map.cpp
+HEADERS = editorwindow.h newdialog.h paletteview.h mapview.h map.h
 FORMS = mainwindow.ui newmap.ui
 RESOURCES = icons.qrc
 

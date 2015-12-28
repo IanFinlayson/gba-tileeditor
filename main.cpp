@@ -10,40 +10,6 @@
 #include "ui_mainwindow.h"
 #include "ui_newmap.h"
 
-/* constructors for the view objects */
-PaletteView::PaletteView(QWidget* parent) : QGraphicsView(parent) {
-
-}
-
-MapView::MapView(QWidget* parent) :QGraphicsView(parent) {
-
-}
-
-/* mouse handlers */
-void MapView::mousePressEvent(QMouseEvent* e) {
-    if (e->button() != Qt::LeftButton) {
-        return;
-    }
-
-    QMessageBox msgBox;
-    msgBox.setText("You clicked on the map");
-    msgBox.exec();
-}
-
-void PaletteView::mousePressEvent(QMouseEvent* e) {
-    if (e->button() != Qt::LeftButton) {
-        return;
-    }
-
-    char message[64];
-    sprintf(message, "(%d, %d)", e->x(), e->y());
-
-    QMessageBox msgBox;
-    msgBox.setText(message);
-    msgBox.exec();
-}
-
-
 /* main entry point */
 int main(int argc, char** argv) {
     /* pass flags to QT */
@@ -84,11 +50,15 @@ int main(int argc, char** argv) {
     ui.palette_view->setScene(palette);
     ui.palette_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-    /* just a test */
+    /* set to grey for now */
     map->addText("MAP", QFont("Arial", 20));
 
     /* show the window */
     window->show();
+
+    /* set the backgrounds to gray */
+    map->setBackgroundBrush(Qt::lightGray);
+    palette->setBackgroundBrush(Qt::lightGray);
 
     /* start the program */
     return app.exec();

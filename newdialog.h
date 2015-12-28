@@ -14,15 +14,18 @@ class NewDialog : public QDialog {
     Q_OBJECT
 
     private:
-
+        QComboBox* combo;
+        bool success;
+        int option;
 
     public:
         NewDialog();
         void setup_triggers(Ui_NewMapDialog* nd);
+        int getSelection();
 
     public slots:
-        void nd_ok( );
-        void nd_cancel( );
+        void nd_ok();
+        void nd_cancel();
 };
 
 #endif
