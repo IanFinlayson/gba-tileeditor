@@ -24,9 +24,9 @@ int main(int argc, char** argv) {
     window->setup_triggers(&ui);
 
     /* set up the graphics areas */ 
-    QGraphicsScene* map = new QGraphicsScene(window);
-    QGraphicsScene* palette = new QGraphicsScene(window);
-    window->setAreas(map, palette);
+    QGraphicsScene* map_scene = new QGraphicsScene(window);
+    QGraphicsScene* palette_scene = new QGraphicsScene(window);
+    window->setAreas(map_scene, palette_scene);
 
     /* set all of the icons */
     ui.actionNew->setIcon(QIcon(":/icons/new.png"));
@@ -45,20 +45,20 @@ int main(int argc, char** argv) {
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 
     /* set up the scenes */
-    ui.map_view->setScene(map);
+    ui.map_view->setScene(map_scene);
     ui.map_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    ui.palette_view->setScene(palette);
+    ui.palette_view->setScene(palette_scene);
     ui.palette_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     /* set to grey for now */
-    map->addText("MAP", QFont("Arial", 20));
+    map_scene->addText("MAP", QFont("Arial", 20));
 
     /* show the window */
     window->show();
 
     /* set the backgrounds to gray */
-    map->setBackgroundBrush(Qt::lightGray);
-    palette->setBackgroundBrush(Qt::lightGray);
+    map_scene->setBackgroundBrush(Qt::lightGray);
+    palette_scene->setBackgroundBrush(Qt::lightGray);
 
     /* start the program */
     return app.exec();

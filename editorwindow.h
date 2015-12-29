@@ -6,6 +6,7 @@
 #define MAIN_H
 
 #include "ui_mainwindow.h"
+#include "map.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -18,12 +19,14 @@ class EditorWindow : public QMainWindow {
         QApplication* app;
 
         /* pointers to the map and palette area */
-        QGraphicsScene* map;
-        QGraphicsScene* palette;
+        QGraphicsScene* map_scene;
+        QGraphicsScene* palette_scene;
 
         /* the image used as the tile sheet */
         QImage tiles;
 
+        /* pointer to the actual map data */
+        Map* map; 
 
     public:
         EditorWindow(QApplication* app);

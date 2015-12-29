@@ -17,8 +17,8 @@ EditorWindow::EditorWindow(QApplication* app) {
 
 /* set the map and palette areas */
 void EditorWindow::setAreas( QGraphicsScene* map, QGraphicsScene* palette) {
-    this->map = map;
-    this->palette = palette;
+    this->map_scene = map;
+    this->palette_scene = palette;
 }
 
 /* set up all the signal and slot triggers for each action */
@@ -47,15 +47,12 @@ void EditorWindow::on_new() {
     ui.setupUi(dialog);
 
     /* add the options for tile maps - these are regular, not affine ones... */
-    ui.comboBox->addItem("Regular 256x256");
-    ui.comboBox->addItem("Regular 512x256");
-    ui.comboBox->addItem("Regular 256x512");
-    ui.comboBox->addItem("Regular 512x512");
-    ui.comboBox->insertSeparator(4); 
-    ui.comboBox->addItem("Affine 128x128");
-    ui.comboBox->addItem("Affine 256x256");
-    ui.comboBox->addItem("Affine 512x512");
-    ui.comboBox->addItem("Affine 1024x1024");
+    ui.comboBox->addItem("128x128 (Affine Only)");
+    ui.comboBox->addItem("256x256");
+    ui.comboBox->addItem("256x512 (Regular Only)");
+    ui.comboBox->addItem("512x256 (Regular Only)");
+    ui.comboBox->addItem("512x512");
+    ui.comboBox->addItem("1024x1024 (Affine Only)");
 
     /* setup the triggers for this thing */
     dialog->setup_triggers(&ui); 
@@ -63,8 +60,12 @@ void EditorWindow::on_new() {
 
     /* get the outcome of this */
     int choice = dialog->getSelection();
-    printf("Choice is %d\n", choice);
-    fflush(stdout);
+
+    /* if we actually chose an image size */
+    if (choice != -1) {
+
+
+    }
 }
 
 void EditorWindow::on_open() {
@@ -100,8 +101,8 @@ void EditorWindow::on_change_properties() {
 
     /* display it in the bottom area */
     QPixmap p = QPixmap::fromImage(tiles);
-    palette->clear();
-    palette->addPixmap(p);
+    palette_scene->clear();
+    palette_scene->addPixmap(p);
 }
 
 void EditorWindow::on_quit() {
