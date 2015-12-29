@@ -16,6 +16,40 @@ Map::Map(int width, int height) {
     }
 }
 
+Map::Map() {
+    width = 0;
+    height = 0;
+    tiles = NULL;
+}
+
+Map::~Map() {
+    if (tiles) {
+        delete [] tiles;
+    }
+}
+
+void Map::read(const std::string& filename) {
+    FILE* f = fopen(filename.c_str(), "r");
+
+    /* TODO check our little signature is there */
+
+
+
+    /* TODO read the width and height */
+
+
+    /* TODO read the pixel data */
+
+
+    width = 32;
+    height = 32;
+    this->tiles = new int[width * height];
+
+    for (int i = 0; i < width * height; i++) {
+        tiles[i] = rand() % 16;
+    }
+}
+
 void Map::write(const std::string& filename) {
     FILE* f = fopen(filename.c_str(), "w");
 
@@ -24,6 +58,7 @@ void Map::write(const std::string& filename) {
     std::string name = info.baseName().toStdString();
 
     /* write preamble stuff */
+    fprintf(f, "/* created by GBA Tile Editor */\n\n"); 
     fprintf(f, "#define %s_width %d\n", name.c_str(), width);
     fprintf(f, "#define %s_height %d\n\n", name.c_str(), height);
     fprintf(f, "const unsigned short %s [] = {\n    ", name.c_str());

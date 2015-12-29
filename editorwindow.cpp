@@ -97,7 +97,25 @@ void EditorWindow::on_new() {
 }
 
 void EditorWindow::on_open() {
-    popup("Open is not implemented yet :(");
+    if (!tiles_loaded) {
+        popup("Set a tile image file first!");
+        return;
+    }
+
+    filename = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Map Headers (*.h)"));
+    if (filename != "") {
+        filename_valid = true;
+        if (map) {
+            delete map;
+        }
+        map = new Map();
+        map->read(filename.toStdString());
+
+        /* apply the map */
+        QPixmap p = map->getPixmap(&tiles);
+        map_scene->clear();
+        map_scene->addPixmap(p);
+    }
 }
 
 /* used for saving stuff */

@@ -12,8 +12,11 @@ class Map {
 
     public:
         Map(int width, int height);
+        Map();
+        ~Map();
         QPixmap getPixmap(QImage* tiles);
         void write(const std::string& filename);
+        void read(const std::string& filename);
 };
 
 
