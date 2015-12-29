@@ -3,6 +3,6 @@ Makefile
 qrc_icons.cpp
 ui_*.h
 moc_*.cpp
-*.o 
+*.o
 gba-tileeditor
 *.gba

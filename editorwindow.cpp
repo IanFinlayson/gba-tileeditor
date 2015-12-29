@@ -102,7 +102,8 @@ void EditorWindow::on_open() {
 
 /* used for saving stuff */
 QString EditorWindow::get_save_name() {
-    return "hi.c";
+    QString f = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Map Headers (*.h)"));
+    return f;
 }
 
 void EditorWindow::save_to_file() {
@@ -124,7 +125,9 @@ void EditorWindow::on_save() {
 void EditorWindow::on_save_as() {
     filename_valid = true;
     filename = get_save_name();
-    save_to_file();
+    if (filename != "") {
+        save_to_file();
+    }
 }
 
 void EditorWindow::on_change_properties() {
