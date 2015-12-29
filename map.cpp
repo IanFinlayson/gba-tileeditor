@@ -1,6 +1,7 @@
 /* map.cpp
  * the actual map model which stores the tile information */
 
+#include <stdio.h> 
 #include "map.h"
 
 Map::Map(int width, int height) {
@@ -12,6 +13,12 @@ Map::Map(int width, int height) {
     for (int i = 0; i < width * height; i++) {
         tiles[i] = rand() % 16;
     }
+}
+
+void Map::write(const char* filename) {
+    FILE* f = fopen(filename, "w");
+    fprintf(f, "TODO, write this image\n");
+    fclose(f);
 }
 
 QPixmap Map::getPixmap(QImage* tile_image) {

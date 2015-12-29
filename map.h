@@ -12,6 +12,7 @@ class Map {
     public:
         Map(int width, int height);
         QPixmap getPixmap(QImage* tiles);
+        void write(const char* filename);
 };
 
 

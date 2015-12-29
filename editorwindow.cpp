@@ -10,9 +10,20 @@
 #include "ui_mainwindow.h"
 #include "ui_newmap.h"
 
+/* shows a generic popup message */
+void popup(const char* message) {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("GBA Tile Editor");
+    msgBox.setText(message);
+    msgBox.exec(); 
+}
+
 /* constructor which stores the app so we can quit later */
 EditorWindow::EditorWindow(QApplication* app) {
     this->app = app;
+    map = NULL;
+    tiles_loaded = false;
+    setWindowTitle("GBA Tile Editor");
 }
 
 /* set the map and palette areas */
@@ -42,6 +53,12 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
 
 /* called when the various actions are taken */
 void EditorWindow::on_new() {
+    if (!tiles_loaded) {
+        popup("Set a tile image file first!");
+        return;
+    }
+
+
     NewDialog* dialog = new NewDialog();
     Ui_NewMapDialog ui;
     ui.setupUi(dialog);
@@ -80,21 +97,34 @@ void EditorWindow::on_new() {
 }
 
 void EditorWindow::on_open() {
-    QMessageBox msgBox;
-    msgBox.setText("Open is not implemented yet :(");
-    msgBox.exec(); 
+    popup("Open is not implemented yet :(");
+}
+
+/* used for saving stuff */
+QString EditorWindow::get_save_name() {
+    return "hi.c";
+}
+
+void EditorWindow::save_to_file() {
+    if (map) {
+        map->write(filename.toStdString().c_str());
+    } else {
+        popup("There is nothing to save yet!");
+    }
 }
 
 void EditorWindow::on_save() {
-    QMessageBox msgBox;
-    msgBox.setText("Save is not implemented yet :(");
-    msgBox.exec(); 
+    if (filename_valid) {
+        save_to_file();
+    } else {
+        on_save_as();
+    }
 }
 
 void EditorWindow::on_save_as() {
-    QMessageBox msgBox;
-    msgBox.setText("Save as is not implemented yet :(");
-    msgBox.exec(); 
+    filename_valid = true;
+    filename = get_save_name();
+    save_to_file();
 }
 
 void EditorWindow::on_change_properties() {
@@ -109,6 +139,7 @@ void EditorWindow::on_change_properties() {
 
     /* set the image itself */
     tiles.load(file);
+    tiles_loaded = true;
 
     /* display it in the bottom area */
     QPixmap p = QPixmap::fromImage(tiles);
@@ -121,50 +152,34 @@ void EditorWindow::on_quit() {
 }
 
 void EditorWindow::on_undo() {
-    QMessageBox msgBox;
-    msgBox.setText("Undo is not implemented yet :(");
-    msgBox.exec(); 
+    popup("Undo is not implemented yet :(");
 }
 
 void EditorWindow::on_redo() {
-    QMessageBox msgBox;
-    msgBox.setText("Redo is not implemented yet :(");
-    msgBox.exec();
+    popup("Redo is not implemented yet :(");
 }
 
 void EditorWindow::on_cut() {
-    QMessageBox msgBox;
-    msgBox.setText("Cut is not implemented yet :(");
-    msgBox.exec(); 
+    popup("Cut is not implemented yet :(");
 }
 
 void EditorWindow::on_copy() {
-    QMessageBox msgBox;
-    msgBox.setText("Copy is not implemented yet :(");
-    msgBox.exec(); 
+    popup("Copy is not implemented yet :(");
 }
 
 void EditorWindow::on_paste() {
-    QMessageBox msgBox;
-    msgBox.setText("Paste is not implemented yet :(");
-    msgBox.exec();
+    popup("Paste is not implemented yet :(");
 }
 
 void EditorWindow::on_grid() {
-    QMessageBox msgBox;
-    msgBox.setText("Grid is not implemented yet :(");
-    msgBox.exec();
+    popup("Grid is not implemented yet :(");
 }
 
 void EditorWindow::on_zoom_in() {
-    QMessageBox msgBox;
-    msgBox.setText("Zoom is not implemented yet :(");
-    msgBox.exec();
+    popup("Zoom is not implemented yet :(");
 }
 
 void EditorWindow::on_zoom_out() {
-    QMessageBox msgBox;
-    msgBox.setText("Zoom is not implemented yet :(");
-    msgBox.exec();
+    popup("Zoom is not implemented yet :(");
 }
 

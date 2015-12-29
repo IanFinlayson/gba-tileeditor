@@ -50,9 +50,6 @@ int main(int argc, char** argv) {
     ui.palette_view->setScene(palette_scene);
     ui.palette_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-    /* set to grey for now */
-    map_scene->addText("MAP", QFont("Arial", 20));
-
     /* show the window */
     window->show();
 

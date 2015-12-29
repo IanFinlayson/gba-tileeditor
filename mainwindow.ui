@@ -239,10 +239,10 @@
   </action>
   <action name="actionChange_Properties">
    <property name="text">
-    <string>Change &amp;Properties</string>
+    <string>Set &amp;Image</string>
    </property>
    <property name="toolTip">
-    <string>Change the base image or the map size</string>
+    <string>Change the base tile image</string>
    </property>
   </action>
  </widget>

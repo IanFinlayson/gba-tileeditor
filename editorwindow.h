@@ -8,6 +8,7 @@
 #include "ui_mainwindow.h"
 #include "map.h"
 
+#include <QString>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
@@ -23,19 +24,28 @@ class EditorWindow : public QMainWindow {
         QGraphicsScene* palette_scene;
 
         /* the image used as the tile sheet */
+        bool tiles_loaded;
         QImage tiles;
 
         /* pointer to the actual map data */
         Map* map; 
+
+        /* the filename, and whether it is valid at all */
+        bool filename_valid;
+        QString  filename;
+
+        /* used for saving stuff */
+        QString get_save_name();
+        void save_to_file();
 
     public:
         EditorWindow(QApplication* app);
         void setAreas(QGraphicsScene* map, QGraphicsScene* palette);
         void setup_triggers(Ui_MainWindow* ui);
 
-    public slots:
-        /* actions for the main window */
-        void on_new( );
+        public slots:
+            /* actions for the main window */
+            void on_new( );
         void on_open( );
         void on_save( );
         void on_save_as( );
