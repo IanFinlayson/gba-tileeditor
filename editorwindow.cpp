@@ -63,8 +63,19 @@ void EditorWindow::on_new() {
 
     /* if we actually chose an image size */
     if (choice != -1) {
+        switch (choice) {
+            case 0: map = new Map(128, 128); break;
+            case 1: map = new Map(256, 256); break;
+            case 2: map = new Map(256, 512); break;
+            case 3: map = new Map(512, 256); break;
+            case 4: map = new Map(512, 512); break;
+            case 5: map = new Map(1024, 1024); break;
+        }
 
-
+        /* apply the map */
+        QPixmap p = map->getPixmap(&tiles);
+        map_scene->clear();
+        map_scene->addPixmap(p);
     }
 }
 
