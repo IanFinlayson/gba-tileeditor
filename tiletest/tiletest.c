@@ -5,11 +5,12 @@
 const unsigned short test_Map[1024] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 
     0x0009, 0x000a, 0x000b, 0x000c, 0x000d, 0x000e, 0x000f, 0x0010, 0x0011, 
-    0x0013, 0x0007, 0x002f, 0x001f, 0x0010, 0x0000, 0x0009, 0x0027, 0x0017, 
-    0x0021, 0x0027, 0x0002, 0x000e, 0x0030, 0x0014, 0x002e, 0x0017, 0x0033, 
-    0x003d, 0x000f, 0x0018, 0x0002, 0x002f, 0x0036, 0x0001, 0x0015, 0x0039, 
-    0x0038, 0x0018, 0x0036, 0x001c, 0x001b, 0x003e, 0x003d, 0x003e, 0x0019, 
-    0x0026, 0x0027, 0x003a, 0x0017, 0x001e, 0x002e, 0x0034, 0x0008, 0x0031, 
+    0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001a, 
+    0x001b, 0x001c, 0x001d, 0x001e, 0x001f, 0x0020, 0x0021, 0x0022, 0x0023,
+    0x0024, 0x0025, 0x0026, 0x0027, 0x0028, 0x0029, 
+    0x002a, 0x002b, 0x002c, 0x002d, 0x002e, 0x002f, 0x0030, 0x0031, 0x0032, 
+    0x0033, 0x0034, 0x0035, 0x0036, 0x0037, 0x0038, 0x0039, 0x003a, 0x003b, 
+    0x003c, 0x003d, 0x003e, 0x003f, 0x001e, 0x002e, 0x0034, 0x0008, 0x0031, 
     0x0003, 0x002f, 0x0039, 0x0000, 0x002b, 0x0033, 0x003f, 0x0024, 0x0007, 
     0x0016, 0x002b, 0x0026, 0x0017, 0x0033, 0x0001, 0x000b, 0x0039, 0x0024, 
     0x0021, 0x0023, 0x001d, 0x0006, 0x0023, 0x003a, 0x0036, 0x0002, 0x0012, 
@@ -116,8 +117,26 @@ const unsigned short test_Map[1024] = {
     0x0003, 0x001a, 0x003f, 0x0003, 0x002c, 0x001a, 0x0004, 0x0017, 0x000e, 
     0x0004, 0x0011, 0x0011, 0x003f, 0x003d, 0x0005, 0x0017, 0x000f, 0x0018, 
     0x000c, 0x0039, 0x002a, 0x0012, 0x002d, 0x002f, 0x0020, 0x001c, 0x001e, 
-    0x0033, 0x0023, 0x0007, 0x0000, 0x0007, 0x0017, 0x001f
+    0x0033
 };
+
+
+//button identifiers
+#define BUTTON_RIGHT 16
+#define BUTTON_LEFT  32
+#define BUTTON_UP    64
+#define BUTTON_DOWN  128
+#define BUTTONS (*(volatile unsigned int*)0x04000130)
+
+//vertical refresh register
+#define REG_DISPSTAT   *(volatile unsigned short*)0x4000004
+
+
+//wait for vertical refresh
+void WaitVBlank(void)
+{
+    while((REG_DISPSTAT & 1));
+}
 
 
 
@@ -133,6 +152,11 @@ const unsigned short test_Map[1024] = {
 #define BG1_ENABLE 0x200
 #define BG2_ENABLE 0x400
 #define BG3_ENABLE 0x800
+
+//scrolling registers for background 0
+#define REG_BG0HOFS *(volatile unsigned short*)0x4000010
+#define REG_BG0VOFS *(volatile unsigned short*)0x4000012
+
 
 /* the graphics display control register */
 #define REG_DISPCNT ((volatile unsigned long*) 0x4000000)
@@ -184,17 +208,6 @@ const unsigned short test_Map[1024] = {
 #define DMA_32_NOW (DMA_ENABLE | DMA_TIMING_IMMEDIATE | DMA_32)
 #define DMA_16_NOW (DMA_ENABLE | DMA_TIMING_IMMEDIATE | DMA_16)
 
-/* function to compute a 16-bit integer color based on the three components
- * the first bit is ignored, then there are five bits for blue, 5 bits for
- * green and five bits for red, valid parameters are in the range of 0-31
- */
-unsigned short make_color(unsigned char r, unsigned char g, unsigned char b) {
-    unsigned short color = b << 10;
-    color += g << 5;
-    color += r;
-    return color;
-}
-
 /* function to use the GBA's hardware memory copy */
 void dma_memcpy(void* source, void* dest, unsigned count, unsigned mode) {
     /* ensure that one of the valid modes are passed */
@@ -236,6 +249,8 @@ const intrp IntrTable[13] = {
 
 /* the main function */
 int main( ) {
+    int x = 0, y = 0;
+
     /* we set the mode to mode 0 with background 0 turned on*/
     *REG_DISPCNT = MODE_0 | BG0_ENABLE;
 
@@ -257,7 +272,24 @@ int main( ) {
 
     /* we now loop forever displaying the image */
     while (1) {
-        /* do nothing */
+        //wait for vertical refresh
+		WaitVBlank();
+
+		//D-pad moves background
+		if(!(BUTTONS & BUTTON_LEFT)) x--;
+		if(!(BUTTONS & BUTTON_RIGHT)) x++;
+		if(!(BUTTONS & BUTTON_UP)) y--;
+		if(!(BUTTONS & BUTTON_DOWN)) y++;
+
+		//use hardware background scrolling
+		REG_BG0VOFS = y ;
+		REG_BG0HOFS = x ;
+
+        //wait for vertical refresh
+		WaitVBlank();
+		
+        int n;
+		for(n = 0; n < 4000; n++);
     }
 }
 
