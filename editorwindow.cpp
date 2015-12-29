@@ -108,7 +108,7 @@ QString EditorWindow::get_save_name() {
 
 void EditorWindow::save_to_file() {
     if (map) {
-        map->write(filename.toStdString().c_str());
+        map->write(filename.toStdString());
     } else {
         popup("There is nothing to save yet!");
     }

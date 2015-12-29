@@ -1,6 +1,7 @@
 /* map.cpp
  * the actual map model which stores the tile information */
 
+#include <QFileInfo>
 #include <stdio.h> 
 #include "map.h"
 
@@ -15,9 +16,43 @@ Map::Map(int width, int height) {
     }
 }
 
-void Map::write(const char* filename) {
-    FILE* f = fopen(filename, "w");
-    fprintf(f, "TODO, write this image\n");
+void Map::write(const std::string& filename) {
+    FILE* f = fopen(filename.c_str(), "w");
+
+    /* find the name which is filename with .h cut off */
+    QFileInfo info(filename.c_str());
+    std::string name = info.baseName().toStdString();
+
+    /* write preamble stuff */
+    fprintf(f, "#define %s_width %d\n", name.c_str(), width);
+    fprintf(f, "#define %s_height %d\n\n", name.c_str(), height);
+    fprintf(f, "const unsigned short %s [] = {\n    ", name.c_str());
+
+    /* for each tile in the map */
+    int counter = 0;
+    for (int col = 0; col < width; col++) {
+        for (int row = 0; row < height; row++) {
+            /* get the tile number we want */
+            int tileno = tiles[row * width + col];
+
+            /* dump it into the file */
+            fprintf(f, "0x%04x, ", tileno);
+
+            counter++;
+            if (counter >= 9) {
+                fprintf(f, "\n    ");
+                counter = 0;
+            }
+
+        }
+    }
+
+    /* write postamble stuff */
+    if (counter) {
+        fprintf(f, "\n");
+    }
+    fprintf(f, "};\n\n");
+
     fclose(f);
 }
 
