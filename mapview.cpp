@@ -14,7 +14,7 @@ MapView::MapView(QWidget* parent) : QGraphicsView(parent) {
 
 }
 
-void MapView::setWindow(EditorWindow* window) {
+void MapView::set_window(EditorWindow* window) {
     this->window = window;
 }
 

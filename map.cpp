@@ -21,11 +21,11 @@ Map::Map(int width, int height) {
     }
 }
 
-int Map::getWidth() {
+int Map::get_width() {
     return width;
 }
 
-int Map::getHeight() {
+int Map::get_height() {
     return height;
 }
 
@@ -145,7 +145,7 @@ void Map::write(const std::string& filename) {
 }
 
 /* get a pixmap from this Map which can be shown in a QT view */
-QPixmap Map::getPixmap(QImage* tile_image) {
+QPixmap Map::get_pixmap(QImage* tile_image) {
     /* create an image which we can draw into */
     QImage image(width * 8, height * 8, QImage::Format_RGB555);
 

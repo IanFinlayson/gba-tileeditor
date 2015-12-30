@@ -15,7 +15,7 @@ PaletteView::PaletteView(QWidget* parent) : QGraphicsView(parent) {
 
 }
 
-void PaletteView::setWindow(EditorWindow* window) {
+void PaletteView::set_window(EditorWindow* window) {
     this->window = window; 
 }
 

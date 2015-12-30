@@ -17,7 +17,7 @@ class PaletteView : public QGraphicsView {
 
     public:
         PaletteView(QWidget* parent);
-        void setWindow(EditorWindow* window);
+        void set_window(EditorWindow* window);
         void mousePressEvent (QMouseEvent* event);
 };
 

@@ -17,7 +17,7 @@ class MapView : public QGraphicsView {
 
     public:
         MapView(QWidget* parent);
-        void setWindow(EditorWindow* window);
+        void set_window(EditorWindow* window);
         void mousePressEvent(QMouseEvent* event);
 };
 

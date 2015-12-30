@@ -28,7 +28,7 @@ void NewDialog::nd_ok() {
     close();
 }
 
-int NewDialog::getSelection() {
+int NewDialog::get_selection() {
     if (success) {
         return option;
     } else {

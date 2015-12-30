@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     /* set up the graphics areas */ 
     QGraphicsScene* map_scene = new QGraphicsScene(window);
     QGraphicsScene* palette_scene = new QGraphicsScene(window);
-    window->setAreas(map_scene, palette_scene);
+    window->set_areas(map_scene, palette_scene);
 
     /* set all of the icons */
     ui.actionNew->setIcon(QIcon(":/icons/new.png"));
@@ -47,11 +47,11 @@ int main(int argc, char** argv) {
     /* set up the scenes */
     ui.map_view->setScene(map_scene);
     ui.map_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    ui.map_view->setWindow(window);
+    ui.map_view->set_window(window);
 
     ui.palette_view->setScene(palette_scene);
     ui.palette_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    ui.palette_view->setWindow(window);
+    ui.palette_view->set_window(window);
 
     /* show the window */
     window->show();

@@ -14,11 +14,11 @@ class Map {
         Map(int width, int height);
         Map();
         ~Map();
-        QPixmap getPixmap(QImage* tiles);
+        QPixmap get_pixmap(QImage* tiles);
         void write(const std::string& filename);
         bool read(const std::string& filename);
-        int getWidth();
-        int getHeight();
+        int get_width();
+        int get_height();
 };
 
 

@@ -27,7 +27,7 @@ EditorWindow::EditorWindow(QApplication* app) {
 }
 
 /* set the map and palette areas */
-void EditorWindow::setAreas( QGraphicsScene* map, QGraphicsScene* palette) {
+void EditorWindow::set_areas( QGraphicsScene* map, QGraphicsScene* palette) {
     this->map_scene = map;
     this->palette_scene = palette;
 }
@@ -76,7 +76,7 @@ void EditorWindow::on_new() {
     dialog->exec();
 
     /* get the outcome of this */
-    int choice = dialog->getSelection();
+    int choice = dialog->get_selection();
 
     /* if we actually chose an image size */
     if (choice != -1) {
@@ -90,7 +90,7 @@ void EditorWindow::on_new() {
         }
 
         /* apply the map */
-        QPixmap p = map->getPixmap(&tiles);
+        QPixmap p = map->get_pixmap(&tiles);
         map_scene->clear();
         map_scene->addPixmap(p);
     }
@@ -111,7 +111,7 @@ void EditorWindow::on_open() {
         map = new Map();
         if (map->read(filename.toStdString())) {
             /* apply the map */
-            QPixmap p = map->getPixmap(&tiles);
+            QPixmap p = map->get_pixmap(&tiles);
             map_scene->clear();
             map_scene->addPixmap(p);
         } else {
@@ -196,12 +196,12 @@ void EditorWindow::map_click(int x, int y) {
     }
 
     /* if the click is out of bounds, then bail */
-    if (x > (map->getWidth() * 8) || y > (map->getHeight() * 8)) {
+    if (x > (map->get_width() * 8) || y > (map->get_height() * 8)) {
         return;
     }
 
     /* figure out which tile they clicked */
-    int tile = (y / 8) * map->getWidth() + (x / 8);
+    int tile = (y / 8) * map->get_width() + (x / 8);
 
     /* TODO apply this tile */
     char msg[64];

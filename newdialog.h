@@ -21,7 +21,7 @@ class NewDialog : public QDialog {
     public:
         NewDialog();
         void setup_triggers(Ui_NewMapDialog* nd);
-        int getSelection();
+        int get_selection();
 
     public slots:
         void nd_ok();
