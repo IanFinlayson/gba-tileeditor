@@ -24,6 +24,7 @@ EditorWindow::EditorWindow(QApplication* app) {
     map = NULL;
     tiles_loaded = false;
     setWindowTitle("GBA Tile Editor");
+    current_tile = 0;
 }
 
 /* set the map and palette areas */
@@ -184,11 +185,10 @@ void EditorWindow::palette_click(int x, int y) {
     /* figure out which tile they clicked */
     int tile = (y / 8) * (tiles.width() / 8) + (x / 8);
 
-    /* TODO set the current tile based on this */
-    char msg[64];
-    sprintf(msg, "(%d, %d) -> %d", x, y, tile);
-    popup(msg);
+    /* set the current tile based on this */
+    current_tile = tile;
 }
+
 void EditorWindow::map_click(int x, int y) {
     /* if there is no map, then bail */
     if (!map) {
@@ -203,11 +203,11 @@ void EditorWindow::map_click(int x, int y) {
     /* figure out which tile they clicked */
     int tile = (y / 8) * map->get_width() + (x / 8);
 
-    /* TODO apply this tile */
-    char msg[64];
-    sprintf(msg, "(%d, %d) -> %d", x, y, tile);
-    popup(msg);
-
+    /* apply this tile */
+    map->set_tile(tile, current_tile);
+    QPixmap p = map->get_pixmap(&tiles);
+    map_scene->clear();
+    map_scene->addPixmap(p);
 }
 
 void EditorWindow::on_quit() {

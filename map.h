@@ -17,6 +17,7 @@ class Map {
         QPixmap get_pixmap(QImage* tiles);
         void write(const std::string& filename);
         bool read(const std::string& filename);
+        void set_tile(int index, int tile_no);
         int get_width();
         int get_height();
 };

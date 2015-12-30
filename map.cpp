@@ -118,8 +118,8 @@ void Map::write(const std::string& filename) {
 
     /* for each tile in the map */
     int counter = 0;
-    for (int col = 0; col < width; col++) {
-        for (int row = 0; row < height; row++) {
+    for (int row = 0; row < height; row++) {
+        for (int col = 0; col < width; col++) {
             /* get the tile number we want */
             int tileno = tiles[row * width + col];
 
@@ -142,6 +142,11 @@ void Map::write(const std::string& filename) {
     fprintf(f, "};\n\n");
 
     fclose(f);
+}
+
+/* modify the tile */
+void Map::set_tile(int index, int tile_no) {
+    tiles[index] = tile_no; 
 }
 
 /* get a pixmap from this Map which can be shown in a QT view */
