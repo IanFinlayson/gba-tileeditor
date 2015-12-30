@@ -109,12 +109,14 @@ void EditorWindow::on_open() {
             delete map;
         }
         map = new Map();
-        map->read(filename.toStdString());
-
-        /* apply the map */
-        QPixmap p = map->getPixmap(&tiles);
-        map_scene->clear();
-        map_scene->addPixmap(p);
+        if (map->read(filename.toStdString())) {
+            /* apply the map */
+            QPixmap p = map->getPixmap(&tiles);
+            map_scene->clear();
+            map_scene->addPixmap(p);
+        } else {
+            popup("The file does not appear to be a valid map header");
+        }
     }
 }
 

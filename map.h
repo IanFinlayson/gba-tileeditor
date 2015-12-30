@@ -16,7 +16,7 @@ class Map {
         ~Map();
         QPixmap getPixmap(QImage* tiles);
         void write(const std::string& filename);
-        void read(const std::string& filename);
+        bool read(const std::string& filename);
 };
 
 

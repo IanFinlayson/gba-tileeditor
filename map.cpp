@@ -3,8 +3,13 @@
 
 #include <QFileInfo>
 #include <stdio.h> 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include "map.h"
 
+/* construct a new map of a given size, and set to all zeroes */
 Map::Map(int width, int height) {
     /* convert pixel sizes into tile sizes */
     this->width = width / 8;
@@ -12,44 +17,84 @@ Map::Map(int width, int height) {
     this->tiles = new int[width * height];
 
     for (int i = 0; i < width * height; i++) {
-        tiles[i] = rand() % 16;
+        tiles[i] = 0;
     }
 }
 
+/* make a blank map */
 Map::Map() {
     width = 0;
     height = 0;
     tiles = NULL;
 }
 
+/* clear the memory for this map */
 Map::~Map() {
     if (tiles) {
         delete [] tiles;
     }
 }
 
-void Map::read(const std::string& filename) {
-    FILE* f = fopen(filename.c_str(), "r");
+/* read this map in from a file */
+bool Map::read(const std::string& filename) {
+    std::string line;
+    std::ifstream f(filename.c_str());
 
-    /* TODO check our little signature is there */
+    /* check our little signature is there */
+    if (!std::getline(f, line)) return false;
+    if (line != "/* created by GBA Tile Editor */") {
+        return false;
+    }
 
+    /* skip the blank line */
+    if (!std::getline(f, line)) return false;
 
+    /* read the width */
+    if (!std::getline(f, line)) return false;
+    else {
+        std::istringstream iss(line);
+        std::string def, name;
+        int val;
+        iss >> def >> name >> val;
+        width = val;
+    }
 
-    /* TODO read the width and height */
+    /* read the height */
+    if (!std::getline(f, line)) return false;
+    else {
+        std::istringstream iss(line);
+        std::string def, name;
+        int val;
+        iss >> def >> name >> val;
+        height = val;
+    }
 
+    /* skip the blank line and the declaration line */
+    if (!std::getline(f, line)) return false;
+    if (!std::getline(f, line)) return false;
 
-    /* TODO read the pixel data */
-
-
-    width = 32;
-    height = 32;
+    /* allocate space for the tiles */
     this->tiles = new int[width * height];
 
-    for (int i = 0; i < width * height; i++) {
-        tiles[i] = rand() % 16;
+    /* read the pixel data */
+    std::string value;
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            /* read the value */
+            if (! (f >> value)) {
+                return false;
+            }
+
+            /* convert to a number */
+            int val = strtol(value.c_str(), NULL, 16); 
+            tiles[i*width + j] = val;
+        }
     }
+
+    return true;
 }
 
+/* write this map into a file */
 void Map::write(const std::string& filename) {
     FILE* f = fopen(filename.c_str(), "w");
 
@@ -91,6 +136,7 @@ void Map::write(const std::string& filename) {
     fclose(f);
 }
 
+/* get a pixmap from this Map which can be shown in a QT view */
 QPixmap Map::getPixmap(QImage* tile_image) {
     /* create an image which we can draw into */
     QImage image(width * 8, height * 8, QImage::Format_RGB555);
