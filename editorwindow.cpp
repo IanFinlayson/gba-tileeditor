@@ -65,12 +65,12 @@ void EditorWindow::on_new() {
     ui.setupUi(dialog);
 
     /* add the options for tile maps - these are regular, not affine ones... */
+    ui.comboBox->addItem("16x16 (Affine Only)");
+    ui.comboBox->addItem("32x32");
+    ui.comboBox->addItem("32x64 (Regular Only)");
+    ui.comboBox->addItem("64x32 (Regular Only)");
+    ui.comboBox->addItem("64x64");
     ui.comboBox->addItem("128x128 (Affine Only)");
-    ui.comboBox->addItem("256x256");
-    ui.comboBox->addItem("256x512 (Regular Only)");
-    ui.comboBox->addItem("512x256 (Regular Only)");
-    ui.comboBox->addItem("512x512");
-    ui.comboBox->addItem("1024x1024 (Affine Only)");
 
     /* setup the triggers for this thing */
     dialog->setup_triggers(&ui); 
@@ -82,12 +82,12 @@ void EditorWindow::on_new() {
     /* if we actually chose an image size */
     if (choice != -1) {
         switch (choice) {
-            case 0: map = new Map(128, 128); break;
-            case 1: map = new Map(256, 256); break;
-            case 2: map = new Map(256, 512); break;
-            case 3: map = new Map(512, 256); break;
-            case 4: map = new Map(512, 512); break;
-            case 5: map = new Map(1024, 1024); break;
+            case 0: map = new Map(16, 16); break;
+            case 1: map = new Map(32, 32); break;
+            case 2: map = new Map(32, 64); break;
+            case 3: map = new Map(64, 32); break;
+            case 4: map = new Map(64, 64); break;
+            case 5: map = new Map(128, 128); break;
         }
 
         /* apply the map */

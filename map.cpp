@@ -12,8 +12,8 @@
 /* construct a new map of a given size, and set to all zeroes */
 Map::Map(int width, int height) {
     /* convert pixel sizes into tile sizes */
-    this->width = width / 8;
-    this->height = height / 8;
+    this->width = width;
+    this->height = height;
     this->tiles = new int[width * height];
 
     for (int i = 0; i < width * height; i++) {
@@ -183,7 +183,7 @@ QPixmap Map::get_pixmap(QImage* tile_image) {
             /* get the x, y position of this tile in the tile image
              * these represent the upper left hand corner of the tile */
             int tilex = (tileno * 8) % (tile_image->width());
-            int tiley = (tileno * 8) / (tile_image->width());
+            int tiley = ((tileno * 8) / (tile_image->width())) * 8;
 
             /* get the x, y position of this tile in the map image
              * ditto for upper left corner */
