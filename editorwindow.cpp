@@ -215,11 +215,25 @@ void EditorWindow::on_quit() {
 }
 
 void EditorWindow::on_undo() {
-    popup("Undo is not implemented yet :(");
+    if (map) {
+        map->undo();
+
+        /* apply the map */
+        QPixmap p = map->get_pixmap(&tiles);
+        map_scene->clear();
+        map_scene->addPixmap(p);
+    }
 }
 
 void EditorWindow::on_redo() {
-    popup("Redo is not implemented yet :(");
+    if (map) {
+        map->redo();
+
+        /* apply the map */
+        QPixmap p = map->get_pixmap(&tiles);
+        map_scene->clear();
+        map_scene->addPixmap(p);
+    }
 }
 
 void EditorWindow::on_cut() {

@@ -41,6 +41,18 @@ Map::~Map() {
     if (tiles) {
         delete [] tiles;
     }
+
+    while (!undo_stack.empty()) {
+        int* tmp = undo_stack.top();
+        undo_stack.pop();
+        delete [] tmp;
+    }
+
+    while (!redo_stack.empty()) {
+        int* tmp = redo_stack.top();
+        redo_stack.pop();
+        delete [] tmp;
+    }
 }
 
 /* read this map in from a file */
@@ -146,6 +158,14 @@ void Map::write(const std::string& filename) {
 
 /* modify the tile */
 void Map::set_tile(int index, int tile_no) {
+    /* save state */
+    int* temp = new int[width * height];
+    for (int i = 0; i < width * height; i++) {
+        temp[i] = tiles[i];
+    }
+    undo_stack.push(temp);
+
+    /* and make the change */
     tiles[index] = tile_no; 
 }
 
@@ -185,5 +205,38 @@ QPixmap Map::get_pixmap(QImage* tile_image) {
     return QPixmap::fromImage(image);
 }
 
+void Map::undo() {
+    if (undo_stack.empty()) {
+        return;
+    }
+
+    /* pop off the last one */
+    int* restore = undo_stack.top();
+    undo_stack.pop();
+
+    /* replace tiles with it */
+    int* current = tiles;
+    tiles = restore;
+
+    /* push this onto redo stack */
+    redo_stack.push(current);
+}
+
+void Map::redo() {
+    if (redo_stack.empty()) {
+        return;
+    }
+
+    /* pop off the last one */
+    int* restore = redo_stack.top();
+    redo_stack.pop();
+
+    /* replace tiles with it */
+    int* current = tiles;
+    tiles = restore;
+
+    /* push this onto redo stack */
+    undo_stack.push(current);
+}
 
 
