@@ -7,11 +7,17 @@
 
 #include <QGraphicsView>
 
+class EditorWindow;
+
 class PaletteView : public QGraphicsView {
     Q_OBJECT
 
+    private:
+        EditorWindow* window;
+
     public:
         PaletteView(QWidget* parent);
+        void setWindow(EditorWindow* window);
         void mousePressEvent (QMouseEvent* event);
 };
 

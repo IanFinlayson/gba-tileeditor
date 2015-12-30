@@ -170,6 +170,46 @@ void EditorWindow::on_change_properties() {
     palette_scene->addPixmap(p);
 }
 
+void EditorWindow::palette_click(int x, int y) {
+    /* if there is no palette, then bail */
+    if (!tiles_loaded) {
+        return;
+    }
+
+    /* if the click is out of bounds, then bail */
+    if (x > tiles.width() || y > tiles.height()) {
+        return;
+    }
+
+    /* figure out which tile they clicked */
+    int tile = (y / 8) * (tiles.width() / 8) + (x / 8);
+
+    /* TODO set the current tile based on this */
+    char msg[64];
+    sprintf(msg, "(%d, %d) -> %d", x, y, tile);
+    popup(msg);
+}
+void EditorWindow::map_click(int x, int y) {
+    /* if there is no map, then bail */
+    if (!map) {
+        return;
+    }
+
+    /* if the click is out of bounds, then bail */
+    if (x > (map->getWidth() * 8) || y > (map->getHeight() * 8)) {
+        return;
+    }
+
+    /* figure out which tile they clicked */
+    int tile = (y / 8) * map->getWidth() + (x / 8);
+
+    /* TODO apply this tile */
+    char msg[64];
+    sprintf(msg, "(%d, %d) -> %d", x, y, tile);
+    popup(msg);
+
+}
+
 void EditorWindow::on_quit() {
     app->exit();
 }

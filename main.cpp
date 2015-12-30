@@ -47,8 +47,11 @@ int main(int argc, char** argv) {
     /* set up the scenes */
     ui.map_view->setScene(map_scene);
     ui.map_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    ui.map_view->setWindow(window);
+
     ui.palette_view->setScene(palette_scene);
     ui.palette_view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    ui.palette_view->setWindow(window);
 
     /* show the window */
     window->show();

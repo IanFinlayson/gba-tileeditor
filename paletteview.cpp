@@ -15,17 +15,16 @@ PaletteView::PaletteView(QWidget* parent) : QGraphicsView(parent) {
 
 }
 
+void PaletteView::setWindow(EditorWindow* window) {
+    this->window = window; 
+}
+
 void PaletteView::mousePressEvent(QMouseEvent* e) {
     if (e->button() != Qt::LeftButton) {
         return;
     }
 
-    char message[64];
-    sprintf(message, "(%d, %d)", e->x(), e->y());
-
-    QMessageBox msgBox;
-    msgBox.setText(message);
-    msgBox.exec();
+    window->palette_click(e->x(), e->y());
 }
 
 

@@ -10,8 +10,12 @@
 #include "ui_mainwindow.h"
 #include "ui_newmap.h"
 
-MapView::MapView(QWidget* parent) :QGraphicsView(parent) {
+MapView::MapView(QWidget* parent) : QGraphicsView(parent) {
 
+}
+
+void MapView::setWindow(EditorWindow* window) {
+    this->window = window;
 }
 
 /* mouse handlers */
@@ -20,9 +24,7 @@ void MapView::mousePressEvent(QMouseEvent* e) {
         return;
     }
 
-    QMessageBox msgBox;
-    msgBox.setText("You clicked on the map");
-    msgBox.exec();
+    window->map_click(e->x(), e->y());
 }
 
 

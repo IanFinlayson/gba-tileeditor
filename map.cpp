@@ -21,6 +21,14 @@ Map::Map(int width, int height) {
     }
 }
 
+int Map::getWidth() {
+    return width;
+}
+
+int Map::getHeight() {
+    return height;
+}
+
 /* make a blank map */
 Map::Map() {
     width = 0;

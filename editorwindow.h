@@ -2,8 +2,8 @@
  * contains the class declarations
  * this has to be in a header file for QT to function */
 
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef EDITOR_WINDOW_H
+#define EDITOR_WINDOW_H
 
 #include "ui_mainwindow.h"
 #include "map.h"
@@ -42,10 +42,12 @@ class EditorWindow : public QMainWindow {
         EditorWindow(QApplication* app);
         void setAreas(QGraphicsScene* map, QGraphicsScene* palette);
         void setup_triggers(Ui_MainWindow* ui);
+        void palette_click(int x, int y);
+        void map_click(int x, int y); 
 
         public slots:
-            /* actions for the main window */
-            void on_new( );
+        /* actions for the main window */
+        void on_new( );
         void on_open( );
         void on_save( );
         void on_save_as( );

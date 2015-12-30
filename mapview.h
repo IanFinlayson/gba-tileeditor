@@ -7,11 +7,17 @@
 
 #include <QGraphicsView>
 
+class EditorWindow;
+
 class MapView : public QGraphicsView {
     Q_OBJECT
 
+    private:
+        EditorWindow* window;
+
     public:
         MapView(QWidget* parent);
+        void setWindow(EditorWindow* window);
         void mousePressEvent(QMouseEvent* event);
 };
 
