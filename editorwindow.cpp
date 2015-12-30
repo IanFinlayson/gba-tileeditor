@@ -25,6 +25,7 @@ EditorWindow::EditorWindow(QApplication* app) {
     tiles_loaded = false;
     setWindowTitle("GBA Tile Editor");
     current_tile = 0;
+    just_saved = true;
 }
 
 /* set the map and palette areas */
@@ -59,6 +60,11 @@ void EditorWindow::on_new() {
         return;
     }
 
+    if (!just_saved) {
+        if (!check_save()) {
+            return;
+        }
+    }
 
     NewDialog* dialog = new NewDialog();
     Ui_NewMapDialog ui;
@@ -94,6 +100,37 @@ void EditorWindow::on_new() {
         QPixmap p = map->get_pixmap(&tiles);
         map_scene->clear();
         map_scene->addPixmap(p);
+        just_saved = true;
+    }
+}
+void EditorWindow::closeEvent(QCloseEvent* event) {
+    if (!just_saved) {
+        if (!check_save()) {
+            event->ignore();
+        }
+    }
+    event->accept();
+}
+
+/* ask the user if they want to save first - returns true if we should
+ * carry on and false if we should abort whatever it is we are doing */
+bool EditorWindow::check_save() {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("GBA Tile Editor");
+    msgBox.setText("The document has been modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Save);
+    switch (msgBox.exec()) {
+        case QMessageBox::Save:
+            on_save();
+            return true;
+        case QMessageBox::Discard:
+            return true;
+        case QMessageBox::Cancel:
+            return false;
+        default:
+            return false;
     }
 }
 
@@ -101,6 +138,12 @@ void EditorWindow::on_open() {
     if (!tiles_loaded) {
         popup("Set a tile image file first!");
         return;
+    }
+
+    if (!just_saved) {
+        if (!check_save()) {
+            return;
+        }
     }
 
     filename = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Map Headers (*.h)"));
@@ -115,6 +158,7 @@ void EditorWindow::on_open() {
             QPixmap p = map->get_pixmap(&tiles);
             map_scene->clear();
             map_scene->addPixmap(p);
+            just_saved = true;
         } else {
             popup("The file does not appear to be a valid map header");
         }
@@ -130,6 +174,7 @@ QString EditorWindow::get_save_name() {
 void EditorWindow::save_to_file() {
     if (map) {
         map->write(filename.toStdString());
+        just_saved = true;
     } else {
         popup("There is nothing to save yet!");
     }
@@ -204,6 +249,7 @@ void EditorWindow::map_click(int x, int y) {
     int tile = (y / 8) * map->get_width() + (x / 8);
 
     /* apply this tile */
+    just_saved = false;
     map->set_tile(tile, current_tile);
     QPixmap p = map->get_pixmap(&tiles);
     map_scene->clear();
@@ -211,6 +257,11 @@ void EditorWindow::map_click(int x, int y) {
 }
 
 void EditorWindow::on_quit() {
+    if (!just_saved) {
+        if (!check_save()) {
+            return;
+        }
+    }
     app->exit();
 }
 

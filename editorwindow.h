@@ -39,12 +39,17 @@ class EditorWindow : public QMainWindow {
         QString get_save_name();
         void save_to_file();
 
+        /* whether we have just saved our work */
+        bool just_saved;
+        bool check_save();
+
     public:
         EditorWindow(QApplication* app);
         void set_areas(QGraphicsScene* map, QGraphicsScene* palette);
         void setup_triggers(Ui_MainWindow* ui);
         void palette_click(int x, int y);
         void map_click(int x, int y); 
+        void closeEvent(QCloseEvent* event);
 
         public slots:
         /* actions for the main window */

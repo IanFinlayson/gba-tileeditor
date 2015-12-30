@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
     Ui_MainWindow ui;
     stderr = fopen("/tmp/gbate-error", "w");
     ui.setupUi(window);
+    window->setWindowTitle("GBA Tile Editor");
 
     /* set up all the triggers */
     window->setup_triggers(&ui);
