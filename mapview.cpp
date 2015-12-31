@@ -24,7 +24,9 @@ void MapView::mousePressEvent(QMouseEvent* e) {
         return;
     }
 
-    window->map_click(e->x(), e->y());
+    /* figure out the coordinates relative to parent - this corrects for the
+     * tile map being scrolled around in some direction */
+    QPoint location = mapToParent(e->pos());
+    window->map_click(location.x(), location.y());
 }
-
 
