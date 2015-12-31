@@ -18,6 +18,7 @@ int main(int argc, char** argv) {
     /* load the main window ui from the one QT generates from the ui file */ 
     EditorWindow* window = new EditorWindow(&app);
     Ui_MainWindow ui;
+    /* ignore garbage warnings from QT */
     stderr = fopen("/tmp/gbate-error", "w");
     ui.setupUi(window);
     window->setWindowTitle("GBA Tile Editor");

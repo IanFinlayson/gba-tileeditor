@@ -53,24 +53,27 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
 }
 
-/* called when the various actions are taken */
+/* called when the user creates a new map */
 void EditorWindow::on_new() {
+    /* if there are no tiles, we must bail */
     if (!tiles_loaded) {
         popup("Set a tile image file first!");
         return;
     }
 
+    /* check if we should save first */
     if (!just_saved) {
         if (!check_save()) {
             return;
         }
     }
 
+    /* create our new map dialog */
     NewDialog* dialog = new NewDialog();
     Ui_NewMapDialog ui;
     ui.setupUi(dialog);
 
-    /* add the options for tile maps - these are regular, not affine ones... */
+    /* add the options for tile maps */
     ui.comboBox->addItem("16x16 (Affine Only)");
     ui.comboBox->addItem("32x32");
     ui.comboBox->addItem("32x64 (Regular Only)");
@@ -78,7 +81,7 @@ void EditorWindow::on_new() {
     ui.comboBox->addItem("64x64");
     ui.comboBox->addItem("128x128 (Affine Only)");
 
-    /* setup the triggers for this thing */
+    /* setup the triggers for this thing and fire it */
     dialog->setup_triggers(&ui); 
     dialog->exec();
 
@@ -87,6 +90,7 @@ void EditorWindow::on_new() {
 
     /* if we actually chose an image size */
     if (choice != -1) {
+        /* create the appropriately sized map */
         switch (choice) {
             case 0: map = new Map(16, 16); break;
             case 1: map = new Map(32, 32); break;
@@ -103,6 +107,8 @@ void EditorWindow::on_new() {
         just_saved = true;
     }
 }
+
+/* called when the user quits via the window manager */
 void EditorWindow::closeEvent(QCloseEvent* event) {
     if (!just_saved) {
         if (!check_save()) {
@@ -135,18 +141,22 @@ bool EditorWindow::check_save() {
     }
 }
 
+/* called when the user chooses the open map option */
 void EditorWindow::on_open() {
+    /* if we have no tiles, bail */
     if (!tiles_loaded) {
         popup("Set a tile image file first!");
         return;
     }
 
+    /* check if we need to save first */
     if (!just_saved) {
         if (!check_save()) {
             return;
         }
     }
 
+    /* get the file name */
     filename = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Map Headers (*.h)"));
     if (filename != "") {
         filename_valid = true;
@@ -172,6 +182,7 @@ QString EditorWindow::get_save_name() {
     return f;
 }
 
+/* actually perform the save */
 void EditorWindow::save_to_file() {
     if (map) {
         map->write(filename.toStdString());
@@ -181,6 +192,7 @@ void EditorWindow::save_to_file() {
     }
 }
 
+/* called when the user chooses the save option */
 void EditorWindow::on_save() {
     if (filename_valid) {
         save_to_file();
@@ -189,6 +201,7 @@ void EditorWindow::on_save() {
     }
 }
 
+/* called when user chooses save as option */
 void EditorWindow::on_save_as() {
     filename_valid = true;
     filename = get_save_name();
@@ -197,6 +210,7 @@ void EditorWindow::on_save_as() {
     }
 }
 
+/* called when the user chooses a tile image */
 void EditorWindow::on_change_properties() {
     /* get the file name of the file they wish to use */
     QString file = QFileDialog::getOpenFileName(this,
@@ -217,6 +231,7 @@ void EditorWindow::on_change_properties() {
     palette_scene->addPixmap(p);
 }
 
+/* called when the palette is clicked */
 void EditorWindow::palette_click(int x, int y) {
     /* if there is no palette, then bail */
     if (!tiles_loaded) {
@@ -235,6 +250,7 @@ void EditorWindow::palette_click(int x, int y) {
     current_tile = tile;
 }
 
+/* called when the map is clicked */
 void EditorWindow::map_click(int x, int y) {
     /* if there is no map, then bail */
     if (!map) {
@@ -257,6 +273,7 @@ void EditorWindow::map_click(int x, int y) {
     map_scene->addPixmap(p);
 }
 
+/* called when the user quits from the application */
 void EditorWindow::on_quit() {
     if (!just_saved) {
         if (!check_save()) {
@@ -266,6 +283,7 @@ void EditorWindow::on_quit() {
     app->exit();
 }
 
+/* called when the user hits undo */
 void EditorWindow::on_undo() {
     if (map) {
         map->undo();
@@ -277,6 +295,7 @@ void EditorWindow::on_undo() {
     }
 }
 
+/* called when the user hits redo */
 void EditorWindow::on_redo() {
     if (map) {
         map->redo();
@@ -288,6 +307,10 @@ void EditorWindow::on_redo() {
     }
 }
 
+
+
+
+/* TODO work on these */
 void EditorWindow::on_cut() {
     popup("Cut is not implemented yet :(");
 }

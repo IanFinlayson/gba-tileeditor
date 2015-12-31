@@ -26,6 +26,8 @@ class EditorWindow : public QMainWindow {
         /* the image used as the tile sheet */
         bool tiles_loaded;
         QImage tiles;
+
+        /* the currently selected tile used for drawing */
         int current_tile;
 
         /* pointer to the actual map data */

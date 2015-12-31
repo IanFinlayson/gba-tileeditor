@@ -16,10 +16,12 @@ PaletteView::PaletteView(QWidget* parent) : QGraphicsView(parent) {
 
 }
 
+/* tell the component about the window it's in */
 void PaletteView::set_window(EditorWindow* window) {
     this->window = window; 
 }
 
+/* called when the mouse is pressed in this area */
 void PaletteView::mousePressEvent(QMouseEvent* e) {
     if (e->button() != Qt::LeftButton) {
         return;

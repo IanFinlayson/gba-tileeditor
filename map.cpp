@@ -21,10 +21,12 @@ Map::Map(int width, int height) {
     }
 }
 
+/* access the width of the map (in tiles) */
 int Map::get_width() {
     return width;
 }
 
+/* access the width of the map (in tiles) */
 int Map::get_height() {
     return height;
 }
@@ -198,13 +200,13 @@ QPixmap Map::get_pixmap(QImage* tile_image) {
                 }
             } 
         }
-    }
-
+    } 
 
     /* return a pixmap out of this image */
     return QPixmap::fromImage(image);
 }
 
+/* undo the last move made */
 void Map::undo() {
     if (undo_stack.empty()) {
         return;
@@ -222,6 +224,7 @@ void Map::undo() {
     redo_stack.push(current);
 }
 
+/* redo the last move made */
 void Map::redo() {
     if (redo_stack.empty()) {
         return;

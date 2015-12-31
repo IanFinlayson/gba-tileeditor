@@ -15,6 +15,7 @@ MapView::MapView(QWidget* parent) : QGraphicsView(parent) {
 
 }
 
+/* tell the component about the window its in */
 void MapView::set_window(EditorWindow* window) {
     this->window = window;
 }
