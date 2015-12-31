@@ -107,6 +107,7 @@ void EditorWindow::closeEvent(QCloseEvent* event) {
     if (!just_saved) {
         if (!check_save()) {
             event->ignore();
+            return;
         }
     }
     event->accept();
