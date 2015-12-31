@@ -56,14 +56,27 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
 
 /* refresh the map area */
 void EditorWindow::refresh_map() {
-        QPixmap p = map->get_pixmap(&tiles);
-        map_scene->clear();
-        map_scene->addPixmap(p);
+    QPixmap p = map->get_pixmap(&tiles);
+
+    /* zoom in, if needed */
+    if (zoom_factor > 1) {
+        p = p.scaled(p.width() * zoom_factor, p.height() * zoom_factor, 
+                Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    }
+
+    map_scene->clear();
+    map_scene->addPixmap(p);
 }
 
 /* refresh the palette area */
 void EditorWindow::refresh_palette() {
     QPixmap p = QPixmap::fromImage(tiles);
+
+    /* zoom in, if needed */
+    if (zoom_factor > 1) {
+        p = p.scaled(p.width() * zoom_factor, p.height() * zoom_factor, 
+                Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    }
     palette_scene->clear();
     palette_scene->addPixmap(p);
 }
@@ -247,6 +260,10 @@ void EditorWindow::palette_click(int x, int y) {
         return;
     }
 
+    /* scale the click */
+    x /= zoom_factor;
+    y /= zoom_factor;
+
     /* if the click is out of bounds, then bail */
     if (x > tiles.width() || y > tiles.height()) {
         return;
@@ -265,6 +282,10 @@ void EditorWindow::map_click(int x, int y) {
     if (!map) {
         return;
     }
+
+    /* scale the click */
+    x /= zoom_factor;
+    y /= zoom_factor;
 
     /* if the click is out of bounds, then bail */
     if (x > (map->get_width() * 8) || y > (map->get_height() * 8)) {
@@ -310,13 +331,22 @@ void EditorWindow::on_redo() {
     }
 }
 
-
+/* called when the user zooms in */
 void EditorWindow::on_zoom_in() {
-    popup("Zoom is not implemented yet :(");
+    if (zoom_factor < 8) {
+        zoom_factor *= 2;
+    }
+    refresh_map();
+    refresh_palette();
 }
 
+/* called when the user zooms out */
 void EditorWindow::on_zoom_out() {
-    popup("Zoom is not implemented yet :(");
+    if (zoom_factor > 1) {
+        zoom_factor /= 2;
+    }
+    refresh_map();
+    refresh_palette();
 }
 
 
