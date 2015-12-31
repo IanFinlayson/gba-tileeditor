@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <QMouseEvent>
+#include <QScrollBar>
 #include <QMessageBox>
 #include <QFileDialog>
 #include "editorwindow.h"
@@ -24,9 +25,11 @@ void MapView::mousePressEvent(QMouseEvent* e) {
         return;
     }
 
-    /* figure out the coordinates relative to parent - this corrects for the
-     * tile map being scrolled around in some direction */
-    QPoint location = mapToParent(e->pos());
-    window->map_click(location.x(), location.y());
+    /* find the position of our scroll bar */
+    int scroll_x = horizontalScrollBar()->value();
+    int scroll_y = verticalScrollBar()->value();
+
+    /* apply the click onto the window - adjusted for scroll */
+    window->map_click(e->x() + scroll_x, e->y() + scroll_y);
 }
 

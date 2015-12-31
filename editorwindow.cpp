@@ -119,7 +119,7 @@ bool EditorWindow::check_save() {
     QMessageBox msgBox;
     msgBox.setWindowTitle("GBA Tile Editor");
     msgBox.setText("The document has been modified.");
-    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setInformativeText("Do you want to save your changes first?");
     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Save);
     switch (msgBox.exec()) {

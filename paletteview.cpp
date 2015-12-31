@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <QMouseEvent>
 #include <QMessageBox>
+#include <QScrollBar>
 #include <QFileDialog>
 #include "editorwindow.h"
 #include "newdialog.h"
@@ -24,7 +25,12 @@ void PaletteView::mousePressEvent(QMouseEvent* e) {
         return;
     }
 
-    window->palette_click(e->x(), e->y());
+    /* find the position of our scroll bar */
+    int scroll_x = horizontalScrollBar()->value();
+    int scroll_y = verticalScrollBar()->value();
+
+    /* apply this palette click - taking scrolling into account */
+    window->palette_click(e->x() + scroll_x, e->y() + scroll_y);
 }
 
 
