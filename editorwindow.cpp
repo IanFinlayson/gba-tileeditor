@@ -45,7 +45,6 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(on_quit()));
     QObject::connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_undo()));
     QObject::connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_redo()));
-    QObject::connect(ui->actionShow_Grid, SIGNAL(triggered()), this, SLOT(on_grid()));
     QObject::connect(ui->actionCut, SIGNAL(triggered()), this, SLOT(on_cut()));
     QObject::connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(on_copy()));
     QObject::connect(ui->actionPaste, SIGNAL(triggered()), this, SLOT(on_paste()));
@@ -364,7 +363,4 @@ void EditorWindow::on_paste() {
     popup("Paste is not implemented yet :(");
 }
 
-void EditorWindow::on_grid() {
-    popup("Grid is not implemented yet :(");
-}
 

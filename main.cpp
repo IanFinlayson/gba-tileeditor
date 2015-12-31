@@ -43,7 +43,6 @@ int main(int argc, char** argv) {
     ui.actionPaste->setIcon(QIcon(":/icons/paste.png"));
     ui.actionUndo->setIcon(QIcon(":/icons/undo.png"));
     ui.actionRedo->setIcon(QIcon(":/icons/redo.png"));
-    ui.actionShow_Grid->setIcon(QIcon(":/icons/show-grid.png"));
     ui.actionZoom_In->setIcon(QIcon(":/icons/zoom-in.png"));
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
 

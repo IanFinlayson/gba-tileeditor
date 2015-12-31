@@ -73,7 +73,6 @@ class EditorWindow : public QMainWindow {
         void on_cut();
         void on_copy();
         void on_paste();
-        void on_grid();
         void on_zoom_in();
         void on_zoom_out();
 };
