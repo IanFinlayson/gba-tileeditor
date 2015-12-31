@@ -26,10 +26,11 @@ EditorWindow::EditorWindow(QApplication* app) {
     setWindowTitle("GBA Tile Editor");
     current_tile = 0;
     just_saved = true;
+    zoom_factor = 2;
 }
 
 /* set the map and palette areas */
-void EditorWindow::set_areas( QGraphicsScene* map, QGraphicsScene* palette) {
+void EditorWindow::set_areas(QGraphicsScene* map, QGraphicsScene* palette) {
     this->map_scene = map;
     this->palette_scene = palette;
 }
@@ -51,6 +52,20 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionZoom_In, SIGNAL(triggered()), this, SLOT(on_zoom_in()));
     QObject::connect(ui->actionZoom_Out, SIGNAL(triggered()), this, SLOT(on_zoom_out()));
     QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
+}
+
+/* refresh the map area */
+void EditorWindow::refresh_map() {
+        QPixmap p = map->get_pixmap(&tiles);
+        map_scene->clear();
+        map_scene->addPixmap(p);
+}
+
+/* refresh the palette area */
+void EditorWindow::refresh_palette() {
+    QPixmap p = QPixmap::fromImage(tiles);
+    palette_scene->clear();
+    palette_scene->addPixmap(p);
 }
 
 /* called when the user creates a new map */
@@ -101,9 +116,7 @@ void EditorWindow::on_new() {
         }
 
         /* apply the map */
-        QPixmap p = map->get_pixmap(&tiles);
-        map_scene->clear();
-        map_scene->addPixmap(p);
+        refresh_map();
         just_saved = true;
     }
 }
@@ -166,9 +179,7 @@ void EditorWindow::on_open() {
         map = new Map();
         if (map->read(filename.toStdString())) {
             /* apply the map */
-            QPixmap p = map->get_pixmap(&tiles);
-            map_scene->clear();
-            map_scene->addPixmap(p);
+            refresh_map();
             just_saved = true;
         } else {
             popup("The file does not appear to be a valid map header");
@@ -226,9 +237,7 @@ void EditorWindow::on_change_properties() {
     tiles_loaded = true;
 
     /* display it in the bottom area */
-    QPixmap p = QPixmap::fromImage(tiles);
-    palette_scene->clear();
-    palette_scene->addPixmap(p);
+    refresh_palette();
 }
 
 /* called when the palette is clicked */
@@ -268,9 +277,7 @@ void EditorWindow::map_click(int x, int y) {
     /* apply this tile */
     just_saved = false;
     map->set_tile(tile, current_tile);
-    QPixmap p = map->get_pixmap(&tiles);
-    map_scene->clear();
-    map_scene->addPixmap(p);
+    refresh_map();
 }
 
 /* called when the user quits from the application */
@@ -289,9 +296,7 @@ void EditorWindow::on_undo() {
         map->undo();
 
         /* apply the map */
-        QPixmap p = map->get_pixmap(&tiles);
-        map_scene->clear();
-        map_scene->addPixmap(p);
+        refresh_map();
     }
 }
 
@@ -301,12 +306,18 @@ void EditorWindow::on_redo() {
         map->redo();
 
         /* apply the map */
-        QPixmap p = map->get_pixmap(&tiles);
-        map_scene->clear();
-        map_scene->addPixmap(p);
+        refresh_map();
     }
 }
 
+
+void EditorWindow::on_zoom_in() {
+    popup("Zoom is not implemented yet :(");
+}
+
+void EditorWindow::on_zoom_out() {
+    popup("Zoom is not implemented yet :(");
+}
 
 
 
@@ -325,13 +336,5 @@ void EditorWindow::on_paste() {
 
 void EditorWindow::on_grid() {
     popup("Grid is not implemented yet :(");
-}
-
-void EditorWindow::on_zoom_in() {
-    popup("Zoom is not implemented yet :(");
-}
-
-void EditorWindow::on_zoom_out() {
-    popup("Zoom is not implemented yet :(");
 }
 

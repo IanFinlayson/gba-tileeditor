@@ -45,6 +45,13 @@ class EditorWindow : public QMainWindow {
         bool just_saved;
         bool check_save();
 
+        /* the zoom factor we are using */
+        int zoom_factor;
+
+        /* refreshes the map or palette views */
+        void refresh_map();
+        void refresh_palette();
+
     public:
         EditorWindow(QApplication* app);
         void set_areas(QGraphicsScene* map, QGraphicsScene* palette);
