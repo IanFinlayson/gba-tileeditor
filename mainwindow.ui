@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>985</width>
-     <height>29</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -56,9 +56,6 @@
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionCopy"/>
-    <addaction name="actionPaste"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -66,6 +63,7 @@
     </property>
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
+    <addaction name="actionShow_Grid"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -86,14 +84,12 @@
    <addaction name="actionSave"/>
    <addaction name="actionChange_Properties"/>
    <addaction name="separator"/>
-   <addaction name="actionCut"/>
-   <addaction name="actionCopy"/>
-   <addaction name="actionPaste"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
    <addaction name="separator"/>
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
+   <addaction name="actionShow_Grid"/>
   </widget>
   <action name="actionNew">
    <property name="text">
@@ -169,45 +165,12 @@
     <string>Ctrl+Shift+Z</string>
    </property>
   </action>
-  <action name="actionCut">
-   <property name="text">
-    <string>Cu&amp;t</string>
-   </property>
-   <property name="toolTip">
-    <string>Cut the selected tiles</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+X</string>
-   </property>
-  </action>
-  <action name="actionCopy">
-   <property name="text">
-    <string>&amp;Copy</string>
-   </property>
-   <property name="toolTip">
-    <string>Copy the selected tiles</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
-  </action>
-  <action name="actionPaste">
-   <property name="text">
-    <string>&amp;Paste</string>
-   </property>
-   <property name="toolTip">
-    <string>Paste tiles here</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
-   </property>
-  </action>
   <action name="actionZoom_In">
    <property name="text">
     <string>Zoom In</string>
    </property>
    <property name="shortcut">
-    <string>+</string>
+    <string>Ctrl+=</string>
    </property>
   </action>
   <action name="actionZoom_Out">
@@ -215,7 +178,7 @@
     <string>Zoom Out</string>
    </property>
    <property name="shortcut">
-    <string>-</string>
+    <string>Ctrl+-</string>
    </property>
   </action>
   <action name="actionChange_Properties">
@@ -224,6 +187,20 @@
    </property>
    <property name="toolTip">
     <string>Change the base tile image</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionShow_Grid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Grid</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
    </property>
   </action>
  </widget>

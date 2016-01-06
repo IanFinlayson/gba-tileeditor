@@ -25,7 +25,7 @@ class Map {
         ~Map();
 
         /* get a pixmap of what this map will look like when rendered */
-        QPixmap get_pixmap(QImage* tiles);
+        QPixmap get_pixmap(QImage* tiles, bool grid_mode, QColor grid_color);
 
         /* load/save the map from/to a file */
         void write(const std::string& filename);

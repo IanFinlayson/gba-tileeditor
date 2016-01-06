@@ -26,6 +26,8 @@ class EditorWindow : public QMainWindow {
         /* the image used as the tile sheet */
         bool tiles_loaded;
         QImage tiles;
+        QImage tiles_grid;
+        QColor grid_color;
 
         /* the currently selected tile used for drawing */
         int current_tile;
@@ -47,6 +49,9 @@ class EditorWindow : public QMainWindow {
 
         /* the zoom factor we are using */
         int zoom_factor;
+
+        /* whether we are draing the grid over the palette and map */
+        bool grid_mode;
 
         /* refreshes the map or palette views */
         void refresh_map();
@@ -70,11 +75,9 @@ class EditorWindow : public QMainWindow {
         void on_quit();
         void on_undo();
         void on_redo();
-        void on_cut();
-        void on_copy();
-        void on_paste();
         void on_zoom_in();
         void on_zoom_out();
+        void on_grid();
 };
 
 #endif

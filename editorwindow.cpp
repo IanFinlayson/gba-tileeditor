@@ -21,8 +21,10 @@ void popup(const char* message) {
 /* constructor which stores the app so we can quit later */
 EditorWindow::EditorWindow(QApplication* app) {
     this->app = app;
+    grid_mode = false;
     map = NULL;
     tiles_loaded = false;
+    grid_color = QColor(255, 0, 0);
     setWindowTitle("GBA Tile Editor");
     current_tile = 0;
     just_saved = true;
@@ -45,17 +47,19 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(on_quit()));
     QObject::connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_undo()));
     QObject::connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_redo()));
-    QObject::connect(ui->actionCut, SIGNAL(triggered()), this, SLOT(on_cut()));
-    QObject::connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(on_copy()));
-    QObject::connect(ui->actionPaste, SIGNAL(triggered()), this, SLOT(on_paste()));
     QObject::connect(ui->actionZoom_In, SIGNAL(triggered()), this, SLOT(on_zoom_in()));
     QObject::connect(ui->actionZoom_Out, SIGNAL(triggered()), this, SLOT(on_zoom_out()));
     QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
+    QObject::connect(ui->actionShow_Grid, SIGNAL(triggered()), this, SLOT(on_grid()));
 }
 
 /* refresh the map area */
 void EditorWindow::refresh_map() {
-    QPixmap p = map->get_pixmap(&tiles);
+    if (!tiles_loaded || !map) {
+        return;
+    }
+
+    QPixmap p = map->get_pixmap(&tiles, grid_mode, grid_color);
 
     /* zoom in, if needed */
     if (zoom_factor > 1) {
@@ -69,7 +73,13 @@ void EditorWindow::refresh_map() {
 
 /* refresh the palette area */
 void EditorWindow::refresh_palette() {
-    QPixmap p = QPixmap::fromImage(tiles);
+    /* get a pixmap, either with or without grid lines */
+    QPixmap p; 
+    if (grid_mode) {
+        p = QPixmap::fromImage(tiles_grid);
+    } else {
+        p = QPixmap::fromImage(tiles);
+    }
 
     /* zoom in, if needed */
     if (zoom_factor > 1) {
@@ -166,6 +176,13 @@ bool EditorWindow::check_save() {
     }
 }
 
+/* called when the user toggles the grid option (default is off) */
+void EditorWindow::on_grid() {
+    grid_mode = !grid_mode;
+    refresh_map();
+    refresh_palette();
+}
+
 /* called when the user chooses the open map option */
 void EditorWindow::on_open() {
     /* if we have no tiles, bail */
@@ -247,6 +264,25 @@ void EditorWindow::on_change_properties() {
     /* set the image itself */
     tiles.load(file);
     tiles_loaded = true;
+
+    /* compute the tile image but with grid lines */
+    tiles_grid = tiles.copy();
+
+    /* for each row 7 of a tile */
+    for (int i = 7; i < tiles_grid.height(); i += 8) {
+        /* for each column */
+        for (int j = 0; j < tiles_grid.width(); j++) {
+            tiles_grid.setPixel(j, i, grid_color.rgba());
+        }
+    }
+
+    /* for each column 7 of a tile */
+    for (int i = 7; i < tiles_grid.width(); i += 8) {
+        /* for each column */
+        for (int j = 0; j < tiles_grid.height(); j++) {
+            tiles_grid.setPixel(i, j, grid_color.rgba());
+        }
+    }
 
     /* display it in the bottom area */
     refresh_palette();
@@ -335,8 +371,12 @@ void EditorWindow::on_zoom_in() {
     if (zoom_factor < 8) {
         zoom_factor *= 2;
     }
-    refresh_map();
-    refresh_palette();
+    if (map) {
+        refresh_map();
+    }
+    if (tiles_loaded) {
+        refresh_palette();
+    }
 }
 
 /* called when the user zooms out */
@@ -344,23 +384,13 @@ void EditorWindow::on_zoom_out() {
     if (zoom_factor > 1) {
         zoom_factor /= 2;
     }
-    refresh_map();
-    refresh_palette();
+    if (map) {
+        refresh_map();
+    }
+    if (tiles_loaded) {
+        refresh_palette();
+    }
 }
 
-
-
-/* TODO work on these */
-void EditorWindow::on_cut() {
-    popup("Cut is not implemented yet :(");
-}
-
-void EditorWindow::on_copy() {
-    popup("Copy is not implemented yet :(");
-}
-
-void EditorWindow::on_paste() {
-    popup("Paste is not implemented yet :(");
-}
 
 

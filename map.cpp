@@ -172,7 +172,7 @@ void Map::set_tile(int index, int tile_no) {
 }
 
 /* get a pixmap from this Map which can be shown in a QT view */
-QPixmap Map::get_pixmap(QImage* tile_image) {
+QPixmap Map::get_pixmap(QImage* tile_image, bool grid_mode, QColor grid_color) {
     /* create an image which we can draw into */
     QImage image(width * 8, height * 8, QImage::Format_RGB555);
 
@@ -201,6 +201,26 @@ QPixmap Map::get_pixmap(QImage* tile_image) {
             } 
         }
     } 
+
+    /* draw the gird, if needed */
+    if (grid_mode) {
+
+        /* for each row 7 of a tile */
+        for (int i = 7; i < image.height(); i += 8) {
+            /* for each column */
+            for (int j = 0; j < image.width(); j++) {
+                image.setPixel(j, i, grid_color.rgba());
+            }
+        }
+
+        /* for each column 7 of a tile */
+        for (int i = 7; i < image.width(); i += 8) {
+            /* for each column */
+            for (int j = 0; j < image.height(); j++) {
+                image.setPixel(i, j, grid_color.rgba());
+            }
+        }
+    }
 
     /* return a pixmap out of this image */
     return QPixmap::fromImage(image);

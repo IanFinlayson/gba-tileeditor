@@ -38,13 +38,11 @@ int main(int argc, char** argv) {
     ui.actionSave_As->setIcon(QIcon(":/icons/save-as.png"));
     ui.actionChange_Properties->setIcon(QIcon(":/icons/change-properties.png")); 
     ui.actionQuit->setIcon(QIcon(":/icons/quit.png"));
-    ui.actionCopy->setIcon(QIcon(":/icons/copy.png"));
-    ui.actionCut->setIcon(QIcon(":/icons/cut.png"));
-    ui.actionPaste->setIcon(QIcon(":/icons/paste.png"));
     ui.actionUndo->setIcon(QIcon(":/icons/undo.png"));
     ui.actionRedo->setIcon(QIcon(":/icons/redo.png"));
     ui.actionZoom_In->setIcon(QIcon(":/icons/zoom-in.png"));
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
+    ui.actionShow_Grid->setIcon(QIcon(":/icons/show-grid.png"));
 
     /* set up the scenes */
     ui.map_view->setScene(map_scene);
