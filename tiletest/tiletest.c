@@ -155,21 +155,19 @@ int main( ) {
 
     /* we now loop forever displaying the image */
     while (1) {
-        //wait for vertical refresh
-		WaitVBlank();
-
 		//D-pad moves background
 		if(!(BUTTONS & BUTTON_LEFT)) x--;
 		if(!(BUTTONS & BUTTON_RIGHT)) x++;
 		if(!(BUTTONS & BUTTON_UP)) y--;
 		if(!(BUTTONS & BUTTON_DOWN)) y++;
+        //
+        //wait for vertical refresh
+		WaitVBlank();
 
 		//use hardware background scrolling
 		REG_BG0VOFS = y ;
 		REG_BG0HOFS = x ;
 
-        //wait for vertical refresh
-		WaitVBlank();
 		
         int n;
 		for(n = 0; n < 4000; n++);

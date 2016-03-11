@@ -6,3 +6,4 @@ moc_*.cpp
 *.o
 gba-tileeditor
 *.gba
+*.elf
