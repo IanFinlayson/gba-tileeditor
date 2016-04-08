@@ -9,6 +9,7 @@ Installing on Ubuntu Linux:
 4. `qmake gba-tileeditor.pro`
 5. `make`
 6. Run gba-tileeditor
+7. To install globally, copy gba-tileeditor to /usr/local/bin
     
 Installing on Windows:
 -------------
