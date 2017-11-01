@@ -22,5 +22,8 @@ Installing on OSX:
 -------------
 1. Navigate to https://github.com/IanFinlayson/gba-tileeditor/releases
 2. Download gba-tileeditor-osx.app.zip
-3. ???
+3. Unzip the archive file.
+4. Drag the .app file into your Applications folder.
+5. Click yes, when it warns you about an untrusted developer.
+
 
