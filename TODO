@@ -1,0 +1,12 @@
+Todo list for this program:
+---------------------------
+
+1. Figure out how to use 128 by 128 maps properly.
+2. Add support for 16 by 16 maps, along with a test.
+3. Add a "shift" feature which will shift the map around horizontally or
+   vertically.  This will facilitate lining maps up on the edges right.
+4. Add a multi-tile select along with copy and paster feature.  This will be
+   tricky, but make the program *much* more pleasant to use.
+
+
+
