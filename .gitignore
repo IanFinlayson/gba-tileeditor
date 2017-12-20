@@ -7,3 +7,5 @@ moc_*.cpp
 gba-tileeditor
 *.gba
 *.elf
+.qmake.stash
+moc_predefs.h
