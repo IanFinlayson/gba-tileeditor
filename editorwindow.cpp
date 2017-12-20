@@ -112,7 +112,7 @@ void EditorWindow::on_new() {
     ui.setupUi(dialog);
 
     /* add the options for tile maps */
-    ui.comboBox->addItem("16x16 (Affine Only)");
+    //ui.comboBox->addItem("16x16 (Affine Only)");  FIXME add support?
     ui.comboBox->addItem("32x32");
     ui.comboBox->addItem("32x64 (Regular Only)");
     ui.comboBox->addItem("64x32 (Regular Only)");
@@ -130,12 +130,12 @@ void EditorWindow::on_new() {
     if (choice != -1) {
         /* create the appropriately sized map */
         switch (choice) {
-            case 0: map = new Map(16, 16); break;
-            case 1: map = new Map(32, 32); break;
-            case 2: map = new Map(32, 64); break;
-            case 3: map = new Map(64, 32); break;
-            case 4: map = new Map(64, 64); break;
-            case 5: map = new Map(128, 128); break;
+            //case 0: map = new Map(16, 16); break;  FIXME add support?
+            case 0: map = new Map(32, 32); break;
+            case 1: map = new Map(32, 64); break;
+            case 2: map = new Map(64, 32); break;
+            case 3: map = new Map(64, 64); break;
+            case 4: map = new Map(128, 128); break;
         }
 
         /* apply the map */

@@ -100,16 +100,67 @@ bool Map::read(const std::string& filename) {
 
     /* read the pixel data */
     std::string value;
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-            /* read the value */
-            if (! (f >> value)) {
-                return false;
-            }
 
-            /* convert to a number */
-            int val = strtol(value.c_str(), NULL, 16); 
-            tiles[i*width + j] = val;
+    /* count the screen block we have to write */
+    int num_sbs = (width * height) / 1024;
+
+    /* keep track of how many screen blocks are above us and to the left */
+    int above = 0;
+    int left = 0;
+
+    for (int sb = 0; sb < num_sbs; sb++) {
+        /* go through each 32x32 screen block */
+        for (int row = 0; row < 32; row++) {
+            for (int col = 0; col < 32; col++) {
+                /* read the value */
+                if (! (f >> value)) {
+                    return false;
+                }
+
+                /* convert to a number */
+                int val = strtol(value.c_str(), NULL, 16); 
+
+                /* calculate the real row and column in the image */
+                int realrow = row + 32 * above;
+                int realcol = col + 32 * left;
+
+                /* now we need to put it into its place */
+                tiles[realrow * width + realcol] = val;
+            }
+        }
+        /* if we just did the last screen block in a row of screen blocks */
+        int last;
+        switch (num_sbs) {
+            case 1:
+                last = 1;
+                break;
+            case 2:
+                if (width == 32)
+                    last = 1;
+                else
+                    last = 0;
+                break;
+            case 4:
+                if (sb == 1 || sb == 3)
+                    last = 1;
+                else
+                    last = 0;
+                break;
+            case 16:
+                if ((sb + 1) % 4 == 0)
+                    last = 1;
+                else
+                    last = 0;
+                break;
+        }
+
+        /* if it WAS the last in a row, none are left and one more is above
+         * otherwise, one more is to the left */
+        if (last) {
+            left = 0;
+            above++;
+        } else {
+            left++;
         }
     }
 
@@ -130,22 +181,76 @@ void Map::write(const std::string& filename) {
     fprintf(f, "#define %s_height %d\n\n", name.c_str(), height);
     fprintf(f, "const unsigned short %s [] = {\n    ", name.c_str());
 
-    /* for each tile in the map */
+    /* start line break counter */
     int counter = 0;
-    for (int row = 0; row < height; row++) {
-        for (int col = 0; col < width; col++) {
-            /* get the tile number we want */
-            int tileno = tiles[row * width + col];
 
-            /* dump it into the file */
-            fprintf(f, "0x%04x, ", tileno);
+    /* FIXME - the code below will NOT work for 16x16 tile maps
+     * I don't know why one would want that, but this should be fixed */
 
-            counter++;
-            if (counter >= 9) {
-                fprintf(f, "\n    ");
-                counter = 0;
+    /* count the screen block we have to write */
+    int num_sbs = (width * height) / 1024;
+
+    /* keep track of how many screen blocks are above us and to the left */
+    int above = 0;
+    int left = 0;
+
+    /* go through each screen block - they have to be written to the file in
+     * order, not just row by row */
+    for (int sb = 0; sb < num_sbs; sb++) {
+        /* go through each 32x32 screen block */
+        for (int row = 0; row < 32; row++) {
+            for (int col = 0; col < 32; col++) {
+                /* calculate the real row and column in the image */
+                int realrow = row + 32 * above;
+                int realcol = col + 32 * left;
+
+                /* get the tile number we want */
+                int tileno = tiles[realrow * width + realcol];
+
+                /* dump it into the file */
+                fprintf(f, "0x%04x, ", tileno);
+
+                counter++;
+                if (counter >= 9) {
+                    fprintf(f, "\n    ");
+                    counter = 0;
+                }
             }
+        }
 
+        /* if we just did the last screen block in a row of screen blocks */
+        int last;
+        switch (num_sbs) {
+            case 1:
+                last = 1;
+                break;
+            case 2:
+                if (width == 32)
+                    last = 1;
+                else
+                    last = 0;
+                break;
+            case 4:
+                if (sb == 1 || sb == 3)
+                    last = 1;
+                else
+                    last = 0;
+                break;
+            case 16:
+                if ((sb + 1) % 4 == 0)
+                    last = 1;
+                else
+                    last = 0;
+                break;
+        }
+
+        /* if it WAS the last in a row, none are left and one more is above
+         * otherwise, one more is to the left */
+        if (last) {
+            left = 0;
+            above++;
+        } else {
+            left++;
         }
     }
 

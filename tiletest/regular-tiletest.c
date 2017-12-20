@@ -1,8 +1,13 @@
 /* include the image data */
 #include "test.h"
 
+
 /* include the map data */
-#include "testmap.h" 
+#include "testmap32_32.h" 
+#include "testmap32_64.h" 
+#include "testmap64_32.h" 
+#include "testmap64_64.h" 
+#include "testmap128_128.h" 
 
 //button identifiers
 #define BUTTON_RIGHT 16
@@ -36,10 +41,9 @@ void WaitVBlank(void)
 #define BG2_ENABLE 0x400
 #define BG3_ENABLE 0x800
 
-//scrolling registers for background 0
-#define REG_BG0HOFS *(volatile unsigned short*)0x4000010
-#define REG_BG0VOFS *(volatile unsigned short*)0x4000012
-
+//scrolling registers for background 2
+#define REG_BG2HOFS *(volatile unsigned short*)0x4000018
+#define REG_BG2VOFS *(volatile unsigned short*)0x400001a
 
 /* the graphics display control register */
 #define REG_DISPCNT ((volatile unsigned long*) 0x4000000)
@@ -47,8 +51,8 @@ void WaitVBlank(void)
 /* the screen memory pointer */
 #define SCREEN ((volatile unsigned short*) 0x6000000)
 
-/* the location of background 0 */
-#define REG_BG0_PTR *(volatile unsigned short*)0x4000008
+/* the location of background 2 */
+#define REG_BG2_PTR *(volatile unsigned short*)0x400000c
 
 /* TODO what's this about */
 #define SCREEN_SHIFT 8
@@ -135,11 +139,13 @@ int main( ) {
     int x = 0, y = 0;
 
     /* we set the mode to mode 0 with background 0 turned on*/
-    *REG_DISPCNT = MODE_0 | BG0_ENABLE;
+    *REG_DISPCNT = MODE_0 | BG2_ENABLE;
 
     /* set up background 0 */
-    REG_BG0_PTR = BG_COLOR256 | TEXTBG_SIZE_256x256 |
-        (31 << SCREEN_SHIFT) | WRAPAROUND;
+    //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_256x256 | (8 << SCREEN_SHIFT) | WRAPAROUND;
+    REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x512 | (8 << SCREEN_SHIFT) | WRAPAROUND;
+    //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_256x512 | (8 << SCREEN_SHIFT) | WRAPAROUND;
+    //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x256 | (8 << SCREEN_SHIFT) | WRAPAROUND;
 
     /* load the palette into background palette memory */
     dma_memcpy((void*) test_palette, (void*) BG_PALETTE_MEMORY,
@@ -150,8 +156,11 @@ int main( ) {
             (test_width * test_height), DMA_16_NOW);
 
     /* copy the tile map itself into memory */
-    unsigned short* bg0map =(unsigned short*)ScreenBaseBlock(31);
-    dma_memcpy((void*)testmap, (void*)bg0map, 1024, DMA_32_NOW);
+    unsigned short* bg2map =(unsigned short*)ScreenBaseBlock(8);
+    //dma_memcpy((void*)testmap32_32, (void*)bg2map, 32*32, DMA_32_NOW);
+    dma_memcpy((void*)testmap64_64, (void*)bg2map, 64*64, DMA_32_NOW);
+    //dma_memcpy((void*)testmap32_64, (void*)bg2map, 32*64, DMA_32_NOW);
+    //dma_memcpy((void*)testmap64_32, (void*)bg2map, 64*32, DMA_32_NOW);
 
     /* we now loop forever displaying the image */
     while (1) {
@@ -165,9 +174,8 @@ int main( ) {
 		WaitVBlank();
 
 		//use hardware background scrolling
-		REG_BG0VOFS = y ;
-		REG_BG0HOFS = x ;
-
+		REG_BG2VOFS = y;
+		REG_BG2HOFS = x;
 		
         int n;
 		for(n = 0; n < 4000; n++);
