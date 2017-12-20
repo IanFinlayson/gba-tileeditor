@@ -1,7 +1,3 @@
-# set the compiler to clang
-QMAKE_CXX = clang++
-QMAKE_LINK = clang++
-
 # set options
 CONFIG += qt debug
 
