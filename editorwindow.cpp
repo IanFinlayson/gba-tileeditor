@@ -29,6 +29,7 @@ EditorWindow::EditorWindow(QApplication* app) {
     current_tile = 0;
     just_saved = true;
     zoom_factor = 2;
+    filename_valid = false;
 }
 
 /* set the map and palette areas */
@@ -140,6 +141,7 @@ void EditorWindow::on_new() {
         /* apply the map */
         refresh_map();
         just_saved = true;
+        filename_valid = false;
     }
 }
 
