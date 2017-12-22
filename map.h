@@ -19,6 +19,9 @@ class Map {
         std::stack<int*> undo_stack;
         std::stack<int*> redo_stack;
 
+        /* do the tile lookup in the order that the GBA requires */
+        int* lookup_tile(int& sb, int& row, int& col, int& above, int& left);
+
     public:
         Map(int width, int height);
         Map();
