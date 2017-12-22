@@ -7,7 +7,6 @@
 #include "testmap32_64.h" 
 #include "testmap64_32.h" 
 #include "testmap64_64.h" 
-#include "testmap128_128.h" 
 
 //button identifiers
 #define BUTTON_RIGHT 16
@@ -142,8 +141,8 @@ int main( ) {
     *REG_DISPCNT = MODE_0 | BG2_ENABLE;
 
     /* set up background 0 */
-    //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_256x256 | (8 << SCREEN_SHIFT) | WRAPAROUND;
-    REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x512 | (8 << SCREEN_SHIFT) | WRAPAROUND;
+    REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_256x256 | (8 << SCREEN_SHIFT) | WRAPAROUND;
+    //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x512 | (8 << SCREEN_SHIFT) | WRAPAROUND;
     //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_256x512 | (8 << SCREEN_SHIFT) | WRAPAROUND;
     //REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x256 | (8 << SCREEN_SHIFT) | WRAPAROUND;
 
@@ -157,8 +156,8 @@ int main( ) {
 
     /* copy the tile map itself into memory */
     unsigned short* bg2map =(unsigned short*)ScreenBaseBlock(8);
-    //dma_memcpy((void*)testmap32_32, (void*)bg2map, 32*32, DMA_32_NOW);
-    dma_memcpy((void*)testmap64_64, (void*)bg2map, 64*64, DMA_32_NOW);
+    dma_memcpy((void*)testmap32_32, (void*)bg2map, 32*32, DMA_32_NOW);
+    //dma_memcpy((void*)testmap64_64, (void*)bg2map, 64*64, DMA_32_NOW);
     //dma_memcpy((void*)testmap32_64, (void*)bg2map, 32*64, DMA_32_NOW);
     //dma_memcpy((void*)testmap64_32, (void*)bg2map, 64*32, DMA_32_NOW);
 

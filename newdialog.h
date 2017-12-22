@@ -17,15 +17,19 @@ class NewDialog : public QDialog {
         QComboBox* combo;
         bool success;
         int option;
+        bool regular;
 
     public:
         NewDialog();
         void setup_triggers(Ui_NewMapDialog* nd);
         int get_selection();
+        bool is_regular();
 
     public slots:
         void nd_ok();
         void nd_cancel();
+        void on_regular();
+        void on_affine();
 };
 
 #endif

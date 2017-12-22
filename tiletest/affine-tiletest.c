@@ -1,12 +1,7 @@
 /* include the image data */
 #include "test.h"
 
-
 /* include the map data */
-#include "testmap32_32.h" 
-#include "testmap32_64.h" 
-#include "testmap64_32.h" 
-#include "testmap64_64.h" 
 #include "testmap128_128.h" 
 
 //button identifiers
@@ -19,14 +14,10 @@
 //vertical refresh register
 #define REG_DISPSTAT   *(volatile unsigned short*)0x4000004
 
-
 //wait for vertical refresh
-void WaitVBlank(void)
-{
+void WaitVBlank(void) {
     while((REG_DISPSTAT & 1));
 }
-
-
 
 /* the mode 0 flag */
 #define MODE_1 0x1
@@ -56,7 +47,7 @@ void WaitVBlank(void)
 /* the location of background 2 */
 #define REG_BG2_PTR *(volatile unsigned short*)0x400000c
 
-/* TODO what's this about */
+/* what's this about */
 #define SCREEN_SHIFT 8
 #define WRAPAROUND 0x1
 #define CharBaseBlock(n) (((n)*0x4000)+0x6000000)
@@ -112,10 +103,10 @@ void dma_memcpy(void* source, void* dest, unsigned count, unsigned mode) {
 }
 
 /* the interrupt functions are this type */
-typedef void (*intrp)( );
+typedef void (*intrp)();
 
 /* this function is used for interrupts which we ignore */
-void interrupt_ignore( ) {
+void interrupt_ignore() {
 }
 
 /* this table specifies which interrupts we handle which way */
@@ -137,26 +128,24 @@ const intrp IntrTable[13] = {
 
 
 /* the main function */
-int main( ) {
+int main() {
     int x = 0, y = 0;
 
     /* we set the mode to mode 0 with background 0 turned on*/
     *REG_DISPCNT = MODE_1 | BG2_ENABLE;
 
     /* set up background 2 */
-    REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x512 | (8 << SCREEN_SHIFT) | WRAPAROUND;
+    REG_BG2_PTR = BG_COLOR256 | TEXTBG_SIZE_512x512 | (8 << SCREEN_SHIFT);
 
     /* load the palette into background palette memory */
-    dma_memcpy((void*) test_palette, (void*) BG_PALETTE_MEMORY,
-            256, DMA_32_NOW);
+    dma_memcpy((void*) test_palette, (void*) BG_PALETTE_MEMORY, 256, DMA_32_NOW);
 
     /* load the tile image into tile memory */
-    dma_memcpy((void*) test_data, (void*) CharBaseBlock(0),
-            (test_width * test_height), DMA_16_NOW);
+    dma_memcpy((void*) test_data, (void*) CharBaseBlock(0), (test_width * test_height), DMA_16_NOW);
 
     /* copy the tile map itself into memory */
     unsigned short* bg2map =(unsigned short*)ScreenBaseBlock(8);
-    dma_memcpy((void*)testmap128_128, (void*)bg2map, 128*128, DMA_32_NOW);
+    dma_memcpy((void*)testmap128_128, (void*)bg2map, (128*128)/2, DMA_16_NOW);
 
     /* we now loop forever displaying the image */
     while (1) {

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>445</width>
-    <height>143</height>
+    <width>344</width>
+    <height>137</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,32 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QComboBox" name="comboBox"/>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QRadioButton" name="radioRegular">
+            <property name="text">
+             <string>Re&amp;gular</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioAffine">
+            <property name="text">
+             <string>Affine</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox"/>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -53,6 +78,22 @@
   <action name="actionCancel">
    <property name="text">
     <string>Cancel</string>
+   </property>
+  </action>
+  <action name="actionRegular">
+   <property name="text">
+    <string>Regular</string>
+   </property>
+   <property name="toolTip">
+    <string>Choose a regular tile map</string>
+   </property>
+  </action>
+  <action name="actionAffine">
+   <property name="text">
+    <string>Affine</string>
+   </property>
+   <property name="toolTip">
+    <string>Choose an affine tile map</string>
    </property>
   </action>
   <zorder>buttonBox</zorder>
@@ -85,6 +126,38 @@
     <hint type="sourcelabel">
      <x>254</x>
      <y>245</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioRegular</sender>
+   <signal>clicked()</signal>
+   <receiver>actionRegular</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>94</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioAffine</sender>
+   <signal>clicked()</signal>
+   <receiver>actionAffine</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

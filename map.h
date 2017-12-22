@@ -15,6 +15,9 @@ class Map {
         int width, height;
         int* tiles;
 
+        /* whether this is a regular map (if not it's affine) */
+        bool regular;
+
         /* undo and redo stacks store the tile information */
         std::stack<int*> undo_stack;
         std::stack<int*> redo_stack;
@@ -23,7 +26,7 @@ class Map {
         int* lookup_tile(int& sb, int& row, int& col, int& above, int& left);
 
     public:
-        Map(int width, int height);
+        Map(int width, int height, bool regular);
         Map();
         ~Map();
 

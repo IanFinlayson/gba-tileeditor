@@ -111,14 +111,6 @@ void EditorWindow::on_new() {
     Ui_NewMapDialog ui;
     ui.setupUi(dialog);
 
-    /* add the options for tile maps */
-    //ui.comboBox->addItem("16x16 (Affine Only)");  FIXME add support?
-    ui.comboBox->addItem("32x32");
-    ui.comboBox->addItem("32x64 (Regular Only)");
-    ui.comboBox->addItem("64x32 (Regular Only)");
-    ui.comboBox->addItem("64x64");
-    ui.comboBox->addItem("128x128 (Affine Only)");
-
     /* setup the triggers for this thing and fire it */
     dialog->setup_triggers(&ui); 
     dialog->exec();
@@ -129,13 +121,22 @@ void EditorWindow::on_new() {
     /* if we actually chose an image size */
     if (choice != -1) {
         /* create the appropriately sized map */
-        switch (choice) {
-            //case 0: map = new Map(16, 16); break;  FIXME add support?
-            case 0: map = new Map(32, 32); break;
-            case 1: map = new Map(32, 64); break;
-            case 2: map = new Map(64, 32); break;
-            case 3: map = new Map(64, 64); break;
-            case 4: map = new Map(128, 128); break;
+        if (dialog->is_regular()) {
+            switch (choice) {
+                /* REGULAR maps */
+                case 0: map = new Map(32, 32, true); break;
+                case 1: map = new Map(32, 64, true); break;
+                case 2: map = new Map(64, 32, true); break;
+                case 3: map = new Map(64, 64, true); break;
+            }
+        } else {
+            switch (choice) {
+                /* AFFINE maps */
+                case 0: map = new Map(16, 16, false); break;
+                case 1: map = new Map(32, 32, false); break;
+                case 2: map = new Map(64, 64, false); break;
+                case 3: map = new Map(128, 128, false); break;
+            }
         }
 
         /* apply the map */

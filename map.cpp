@@ -10,10 +10,11 @@
 #include "map.h"
 
 /* construct a new map of a given size, and set to all zeroes */
-Map::Map(int width, int height) {
+Map::Map(int width, int height, bool regular) {
     /* convert pixel sizes into tile sizes */
     this->width = width;
     this->height = height;
+    this->regular = regular;
     this->tiles = new int[width * height];
 
     for (int i = 0; i < width * height; i++) {
@@ -35,6 +36,7 @@ int Map::get_height() {
 Map::Map() {
     width = 0;
     height = 0;
+    regular = true;
     tiles = NULL;
 }
 
@@ -60,6 +62,26 @@ Map::~Map() {
 /* gets a tile from the map using the complex indexing required 
  * must be called until it returns NULL */
 int* Map::lookup_tile(int& sb, int& row, int& col, int& above, int& left) {
+    /* if it's an affine background, then we must do them strictly in order */
+    if (!regular) {
+        /* we just go tile by tile */
+        if (row == height) {
+            return NULL;
+        }
+
+        /* grab the value */
+        int* value = &tiles[row * width + col];
+
+        /* update counters */
+        col++;
+        if (col == width) {
+            col = 0;
+            row++;
+        }
+
+        return value;
+    }
+
     /* count the screen block we have to write */
     int num_sbs = (width * height) / 1024;
 
@@ -134,8 +156,24 @@ bool Map::read(const std::string& filename) {
 
     /* check our little signature is there */
     if (!std::getline(f, line)) return false;
-    if (line != "/* created by GBA Tile Editor */") {
+    if (line != "/* created by GBA Tile Editor") {
         return false;
+    }
+
+    /* read our map tpye (regular or affine) */
+    if (!std::getline(f, line)) return false;
+    else {
+        std::istringstream iss(line);
+        std::string type;
+        iss >> type;
+
+        if (type == "regular") {
+            this->regular = true;
+        } else if (type == "affine") {
+            this->regular = false;
+        } else {
+            return false;
+        } 
     }
 
     /* skip the blank line */
@@ -171,7 +209,6 @@ bool Map::read(const std::string& filename) {
     /* read the pixel data */
     std::string value;
 
-
     /* start the complex indexing loop operation */
     int sb = 0;
     int above = 0;
@@ -206,17 +243,20 @@ void Map::write(const std::string& filename) {
     std::string name = info.baseName().toStdString();
 
     /* write preamble stuff */
-    fprintf(f, "/* created by GBA Tile Editor */\n\n"); 
+    fprintf(f, "/* created by GBA Tile Editor\n");
+    fprintf(f, "   %s map */\n\n", regular ? "regular" : "affine");
     fprintf(f, "#define %s_width %d\n", name.c_str(), width);
     fprintf(f, "#define %s_height %d\n\n", name.c_str(), height);
-    fprintf(f, "const unsigned short %s [] = {\n    ", name.c_str());
+
+    /* affine backgrounds are 8-bit values, regular are 16-bit */
+    if (!regular) {
+        fprintf(f, "const unsigned char %s [] = {\n    ", name.c_str());
+    } else {
+        fprintf(f, "const unsigned short %s [] = {\n    ", name.c_str());
+    }
 
     /* start line break counter */
     int counter = 0;
-
-    /* FIXME - the code below will NOT work for 16x16 tile maps
-     * I don't know why one would want that, but this should be fixed */
-
 
     /* start the complex indexing loop operation */
     int sb = 0;
@@ -228,8 +268,13 @@ void Map::write(const std::string& filename) {
 
     /* grab the next tile we need to write into */
     while ((tile = lookup_tile(sb, row, col, above, left))) {
-        /* dump it into the file */
-        fprintf(f, "0x%04x, ", *tile);
+        /* dump it into the file
+         * regular backgrounds use 16-bit indices, affine ones use 8-bit ones */
+        if (!regular) {
+            fprintf(f, "0x%02x, ", (unsigned char)(*tile));
+        } else {
+            fprintf(f, "0x%04x, ", (unsigned short)(*tile));
+        }
 
         counter++;
         if (counter >= 9) {

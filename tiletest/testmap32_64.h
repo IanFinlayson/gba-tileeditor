@@ -1,4 +1,5 @@
-/* created by GBA Tile Editor */
+/* created by GBA Tile Editor
+   regular map */
 
 #define testmap32_64_width 32
 #define testmap32_64_height 64
