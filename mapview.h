@@ -15,6 +15,7 @@ class MapView : public QGraphicsView {
     private:
         EditorWindow* window;
         bool dragging;
+        void updateMapAt(QMouseEvent* event);
 
     public:
         MapView(QWidget* parent);

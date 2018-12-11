@@ -52,6 +52,8 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionZoom_Out, SIGNAL(triggered()), this, SLOT(on_zoom_out()));
     QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
     QObject::connect(ui->actionShow_Grid, SIGNAL(triggered()), this, SLOT(on_grid()));
+
+    activeTileInToolbarAction = ui->toolBar->addAction("");
 }
 
 /* refresh the map area */
@@ -312,6 +314,23 @@ void EditorWindow::palette_click(int x, int y) {
 
     /* set the current tile based on this */
     current_tile = tile;
+    updateTilePreviewIcon();
+}
+
+void EditorWindow::updateTilePreviewIcon() {
+    int tilex = (current_tile * 8) % (tiles.width());
+    int tiley = ((current_tile * 8) / (tiles.width())) * 8;
+
+    QImage image(8, 8, QImage::Format_RGB555);
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            QRgb color = tiles.pixel(tilex + i, tiley + j);
+            image.setPixel(i, j, color);
+        }
+    }
+
+    activeTileInToolbarAction->setIcon(QPixmap::fromImage(image.scaled(32, 32, Qt::KeepAspectRatio)));
 }
 
 /* called when the map is clicked */

@@ -25,7 +25,10 @@ void MapView::mouseMoveEvent(QMouseEvent* e) {
     if(!dragging) {
         return;
     }
+    updateMapAt(e);
+}
 
+void MapView::updateMapAt(QMouseEvent* e) {
     /* find the position of our scroll bar */
     int scroll_x = horizontalScrollBar()->value();
     int scroll_y = verticalScrollBar()->value();
@@ -42,5 +45,6 @@ void MapView::mousePressEvent(QMouseEvent* e) {
     if (e->button() == Qt::LeftButton) {
         dragging = true;
     }
+    updateMapAt(e);
 }
 
