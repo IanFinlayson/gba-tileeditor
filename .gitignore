@@ -9,3 +9,4 @@ gba-tileeditor
 *.elf
 .qmake.stash
 moc_predefs.h
+*.pro.user

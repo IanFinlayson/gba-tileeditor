@@ -14,11 +14,14 @@ class MapView : public QGraphicsView {
 
     private:
         EditorWindow* window;
+        bool dragging;
 
     public:
         MapView(QWidget* parent);
         void set_window(EditorWindow* window);
         void mousePressEvent(QMouseEvent* event);
+        void mouseReleaseEvent(QMouseEvent* event);
+        void mouseMoveEvent(QMouseEvent* event);
 };
 
 #endif
