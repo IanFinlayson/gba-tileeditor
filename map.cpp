@@ -336,7 +336,7 @@ QPixmap Map::get_pixmap(QImage* tile_image, bool grid_mode, QColor grid_color) {
         }
     } 
 
-    /* draw the gird, if needed */
+    /* draw the grid, if needed */
     if (grid_mode) {
 
         /* for each row 7 of a tile */

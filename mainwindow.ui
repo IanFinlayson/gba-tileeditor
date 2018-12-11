@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>985</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -90,6 +90,7 @@
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
    <addaction name="actionShow_Grid"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionNew">
    <property name="text">

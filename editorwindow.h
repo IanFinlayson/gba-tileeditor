@@ -19,6 +19,8 @@ class EditorWindow : public QMainWindow {
         /* pointer to the main app so we can close it */
         QApplication* app;
 
+        QAction* activeTileInToolbarAction;
+
         /* pointers to the map and palette area */
         QGraphicsScene* map_scene;
         QGraphicsScene* palette_scene;
@@ -56,6 +58,7 @@ class EditorWindow : public QMainWindow {
         /* refreshes the map or palette views */
         void refresh_map();
         void refresh_palette();
+        void updateTilePreviewIcon();
 
     public:
         EditorWindow(QApplication* app);
