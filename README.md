@@ -10,8 +10,6 @@ Installing on Ubuntu Linux:
 5. `make`
 6. Run gba-tileeditor
 7. To install globally, copy gba-tileeditor to /usr/local/bin 
-
-`sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools`
     
 Installing on Windows:
 -------------
