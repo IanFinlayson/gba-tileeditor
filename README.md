@@ -5,13 +5,11 @@ Installing on Ubuntu Linux:
 -------------
 1. Navigate to https://github.com/IanFinlayson/gba-tileeditor/releases
 2. Download the source code and unpack it.
-3. `sudo apt-get install qt5-default`
+3. `sudo apt install qtbase5-dev`
 4. `qmake gba-tileeditor.pro`
 5. `make`
 6. Run gba-tileeditor
-7. To install globally, copy gba-tileeditor to /usr/local/bin
-
-If `qt5-default` is not available on your version of Ubuntu [you will need to manually install all its dependencies instead](https://askubuntu.com/questions/1335184/qt5-default-not-in-ubuntu-21-04) using the following command: 
+7. To install globally, copy gba-tileeditor to /usr/local/bin 
 
 `sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools`
     
