@@ -21,6 +21,8 @@ class EditorWindow : public QMainWindow {
 
         QAction* activeTileInToolbarAction;
 
+        QAction* eyedropper;
+
         /* pointers to the map and palette area */
         QGraphicsScene* map_scene;
         QGraphicsScene* palette_scene;
@@ -81,6 +83,7 @@ class EditorWindow : public QMainWindow {
         void on_zoom_in();
         void on_zoom_out();
         void on_grid();
+        void on_eyedropper();
 };
 
 #endif

@@ -305,6 +305,10 @@ void Map::set_tile(int index, int tile_no) {
     tiles[index] = tile_no; 
 }
 
+int Map::get_tile(int index) {
+    return tiles[index];
+}
+
 /* get a pixmap from this Map which can be shown in a QT view */
 QPixmap Map::get_pixmap(QImage* tile_image, bool grid_mode, QColor grid_color) {
     /* create an image which we can draw into */

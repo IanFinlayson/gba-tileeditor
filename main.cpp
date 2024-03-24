@@ -43,6 +43,7 @@ int main(int argc, char** argv) {
     ui.actionZoom_In->setIcon(QIcon(":/icons/zoom-in.png"));
     ui.actionZoom_Out->setIcon(QIcon(":/icons/zoom-out.png"));
     ui.actionShow_Grid->setIcon(QIcon(":/icons/show-grid.png"));
+    ui.actionEyedropper->setIcon(QIcon(":/icons/eyedropper.png"));
 
     /* set up the scenes */
     ui.map_view->setScene(map_scene);
