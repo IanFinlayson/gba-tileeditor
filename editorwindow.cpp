@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <QMouseEvent>
+#include <QKeyEvent>
 #include <QMessageBox>
 #include <QFileDialog>
 #include "editorwindow.h"
@@ -30,6 +31,8 @@ EditorWindow::EditorWindow(QApplication* app) {
     just_saved = true;
     zoom_factor = 2;
     filename_valid = false;
+
+
 }
 
 /* set the map and palette areas */
@@ -52,8 +55,10 @@ void EditorWindow::setup_triggers(Ui_MainWindow* ui) {
     QObject::connect(ui->actionZoom_Out, SIGNAL(triggered()), this, SLOT(on_zoom_out()));
     QObject::connect(ui->actionChange_Properties, SIGNAL(triggered()), this, SLOT(on_change_properties()));
     QObject::connect(ui->actionShow_Grid, SIGNAL(triggered()), this, SLOT(on_grid()));
+    QObject::connect(ui->actionEyedropper, SIGNAL(triggered()), this, SLOT(on_eyedropper()));
 
     activeTileInToolbarAction = ui->toolBar->addAction("");
+    eyedropper = ui->actionEyedropper;
 }
 
 /* refresh the map area */
@@ -354,8 +359,18 @@ void EditorWindow::map_click(int x, int y) {
 
     /* apply this tile */
     just_saved = false;
-    map->set_tile(tile, current_tile);
-    refresh_map();
+
+    if (eyedropper->isChecked()) {
+        if (!eyedropper_key_held) {
+            eyedropper->setChecked(false);
+        }
+        current_tile = map->get_tile(tile);
+        updateTilePreviewIcon();
+    }
+    else {
+        map->set_tile(tile, current_tile);
+        refresh_map();
+    }
 }
 
 /* called when the user quits from the application */
@@ -414,5 +429,24 @@ void EditorWindow::on_zoom_out() {
     }
 }
 
+void EditorWindow::on_eyedropper() {
+    // ¯\_(ツ)_/¯
+}
 
+void EditorWindow::keyPressEvent(QKeyEvent* e) {
+    if (e->key() == Qt::Key_Control) {
+        if (!eyedropper->isChecked()) {
+            eyedropper_key_held = true;
+            eyedropper->setChecked(true);
+        }
+    }
+}
 
+void EditorWindow::keyReleaseEvent(QKeyEvent* e) {
+    if (e->key() == Qt::Key_Control) {
+        if (eyedropper_key_held) {
+            eyedropper->setChecked(false);
+            eyedropper_key_held = false;
+        }
+    }
+}

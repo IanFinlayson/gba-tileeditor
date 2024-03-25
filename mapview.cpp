@@ -47,4 +47,3 @@ void MapView::mousePressEvent(QMouseEvent* e) {
     }
     updateMapAt(e);
 }
-

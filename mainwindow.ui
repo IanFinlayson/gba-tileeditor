@@ -91,6 +91,8 @@
    <addaction name="actionZoom_Out"/>
    <addaction name="actionShow_Grid"/>
    <addaction name="separator"/>
+   <addaction name="actionEyedropper"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionNew">
    <property name="text">
@@ -202,6 +204,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+G</string>
+   </property>
+  </action>
+  <action name="actionEyedropper">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Eyedropper</string>
    </property>
   </action>
  </widget>

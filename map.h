@@ -39,6 +39,7 @@ class Map {
 
         /* set a tile in the map to a new value */
         void set_tile(int index, int tile_no);
+        int get_tile(int index);
 
         /* get the dimensions */
         int get_width();

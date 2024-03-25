@@ -23,6 +23,7 @@ class MapView : public QGraphicsView {
         void mousePressEvent(QMouseEvent* event);
         void mouseReleaseEvent(QMouseEvent* event);
         void mouseMoveEvent(QMouseEvent* event);
+
 };
 
 #endif
