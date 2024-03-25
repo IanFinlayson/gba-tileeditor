@@ -213,9 +213,6 @@
    <property name="text">
     <string>Eyedropper</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+E</string>
-   </property>
   </action>
  </widget>
  <customwidgets>

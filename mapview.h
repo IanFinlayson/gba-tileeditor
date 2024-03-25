@@ -15,6 +15,7 @@ class MapView : public QGraphicsView {
     private:
         EditorWindow* window;
         bool dragging;
+        bool eyedropper;
         void updateMapAt(QMouseEvent* event);
 
     public:
@@ -23,6 +24,9 @@ class MapView : public QGraphicsView {
         void mousePressEvent(QMouseEvent* event);
         void mouseReleaseEvent(QMouseEvent* event);
         void mouseMoveEvent(QMouseEvent* event);
+
+        void keyPressEvent(QKeyEvent* event);
+        void keyReleaseEvent(QKeyEvent* event);
 };
 
 #endif

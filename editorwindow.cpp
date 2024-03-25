@@ -30,6 +30,8 @@ EditorWindow::EditorWindow(QApplication* app) {
     just_saved = true;
     zoom_factor = 2;
     filename_valid = false;
+
+
 }
 
 /* set the map and palette areas */
@@ -358,7 +360,9 @@ void EditorWindow::map_click(int x, int y) {
     just_saved = false;
 
     if (eyedropper->isChecked()) {
-        eyedropper->setChecked(false);
+        if (!eyedropper_key_held) {
+            eyedropper->setChecked(false);
+        }
         current_tile = map->get_tile(tile);
         updateTilePreviewIcon();
     }
@@ -428,4 +432,14 @@ void EditorWindow::on_eyedropper() {
     // ¯\_(ツ)_/¯
 }
 
-
+/* for setting eyedropper state when control key is held / released */
+void EditorWindow::set_eyedropper(bool state) {
+    if (!state && eyedropper_key_held) {
+        eyedropper->setChecked(false);
+        eyedropper_key_held = false;
+    }
+    else if (state && !eyedropper->isChecked()) {
+        eyedropper_key_held = true;
+        eyedropper->setChecked(true);
+    }
+}
