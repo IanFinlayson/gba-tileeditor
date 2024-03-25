@@ -62,6 +62,9 @@ class EditorWindow : public QMainWindow {
         void refresh_map();
         void refresh_palette();
         void updateTilePreviewIcon();
+        
+        void keyPressEvent(QKeyEvent* event);
+        void keyReleaseEvent(QKeyEvent* event);
 
     public:
         EditorWindow(QApplication* app);
@@ -85,7 +88,6 @@ class EditorWindow : public QMainWindow {
         void on_zoom_out();
         void on_grid();
         void on_eyedropper();
-        void set_eyedropper(bool state);
 };
 
 #endif

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <QMouseEvent>
+#include <QKeyEvent>
 #include <QMessageBox>
 #include <QFileDialog>
 #include "editorwindow.h"
@@ -432,14 +433,20 @@ void EditorWindow::on_eyedropper() {
     // ¯\_(ツ)_/¯
 }
 
-/* for setting eyedropper state when control key is held / released */
-void EditorWindow::set_eyedropper(bool state) {
-    if (!state && eyedropper_key_held) {
-        eyedropper->setChecked(false);
-        eyedropper_key_held = false;
+void EditorWindow::keyPressEvent(QKeyEvent* e) {
+    if (e->key() == Qt::Key_Control) {
+        if (!eyedropper->isChecked()) {
+            eyedropper_key_held = true;
+            eyedropper->setChecked(true);
+        }
     }
-    else if (state && !eyedropper->isChecked()) {
-        eyedropper_key_held = true;
-        eyedropper->setChecked(true);
+}
+
+void EditorWindow::keyReleaseEvent(QKeyEvent* e) {
+    if (e->key() == Qt::Key_Control) {
+        if (eyedropper_key_held) {
+            eyedropper->setChecked(false);
+            eyedropper_key_held = false;
+        }
     }
 }

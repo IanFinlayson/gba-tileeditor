@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <QMouseEvent>
-#include <QKeyEvent>
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -47,16 +46,4 @@ void MapView::mousePressEvent(QMouseEvent* e) {
         dragging = true;
     }
     updateMapAt(e);
-}
-
-void MapView::keyPressEvent(QKeyEvent* e) {
-    if (e->key() == Qt::Key_Control) {
-        window->set_eyedropper(true);
-    }
-}
-
-void MapView::keyReleaseEvent(QKeyEvent* e) {
-    if (e->key() == Qt::Key_Control) {
-        window->set_eyedropper(false);
-    }
 }
