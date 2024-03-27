@@ -350,7 +350,7 @@ void EditorWindow::map_click(int x, int y) {
     y /= zoom_factor;
 
     /* if the click is out of bounds, then bail */
-    if (x > (map->get_width() * 8) || y > (map->get_height() * 8)) {
+    if (x >= (map->get_width() * 8) || x < 0 || y > (map->get_height() * 8)) {
         return;
     }
 
