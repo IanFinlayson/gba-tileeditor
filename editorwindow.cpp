@@ -1,6 +1,7 @@
 /* editorwindow.cpp
  * implementation fle for the main editor window */
 
+#include <cstddef>
 #include <stdio.h>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -374,7 +375,9 @@ void EditorWindow::map_click(int x, int y) {
 }
 
 void EditorWindow::start_drag() {
-    map->start_drag();
+    if (map != NULL) {
+        map->start_drag();
+    }
 }
 
 /* called when the user quits from the application */
