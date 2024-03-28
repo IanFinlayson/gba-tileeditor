@@ -32,8 +32,6 @@ EditorWindow::EditorWindow(QApplication* app) {
     just_saved = true;
     zoom_factor = 2;
     filename_valid = false;
-
-
 }
 
 /* set the map and palette areas */
@@ -369,8 +367,11 @@ void EditorWindow::map_click(int x, int y) {
         updateTilePreviewIcon();
     }
     else {
-        map->set_tile(tile, current_tile);
-        refresh_map();
+        if (map->get_tile(tile) != current_tile) {
+            printf("%d\n", tile);
+            map->set_tile(tile, current_tile);
+            refresh_map();
+        }
     }
 }
 
