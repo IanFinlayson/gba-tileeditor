@@ -368,7 +368,6 @@ void EditorWindow::map_click(int x, int y) {
     }
     else {
         if (map->get_tile(tile) != current_tile) {
-            printf("%d\n", tile);
             map->set_tile(tile, current_tile);
             refresh_map();
         }
