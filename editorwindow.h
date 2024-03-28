@@ -72,6 +72,7 @@ class EditorWindow : public QMainWindow {
         void setup_triggers(Ui_MainWindow* ui);
         void palette_click(int x, int y);
         void map_click(int x, int y); 
+        void start_drag();
         void closeEvent(QCloseEvent* event);
 
         public slots:

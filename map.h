@@ -37,6 +37,8 @@ class Map {
         void write(const std::string& filename);
         bool read(const std::string& filename);
 
+        void start_drag();
+
         /* set a tile in the map to a new value */
         void set_tile(int index, int tile_no);
         int get_tile(int index);

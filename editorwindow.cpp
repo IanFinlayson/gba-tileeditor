@@ -373,6 +373,10 @@ void EditorWindow::map_click(int x, int y) {
     }
 }
 
+void EditorWindow::start_drag() {
+    map->start_drag();
+}
+
 /* called when the user quits from the application */
 void EditorWindow::on_quit() {
     if (!just_saved) {

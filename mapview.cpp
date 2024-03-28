@@ -37,6 +37,7 @@ void MapView::updateMapAt(QMouseEvent* e) {
     window->map_click(e->x() + scroll_x, e->y() + scroll_y);
 }
 
+
 void MapView::mouseReleaseEvent(QMouseEvent* e) {
     dragging = false;
 }
@@ -44,6 +45,7 @@ void MapView::mouseReleaseEvent(QMouseEvent* e) {
 void MapView::mousePressEvent(QMouseEvent* e) {
     if (e->button() == Qt::LeftButton) {
         dragging = true;
+        window->start_drag();
     }
     updateMapAt(e);
 }
