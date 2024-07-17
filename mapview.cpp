@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include "editorwindow.h"
 #include "newdialog.h"
+#include "qnamespace.h"
 #include "ui_mainwindow.h"
 #include "ui_newmap.h"
 
@@ -37,13 +38,18 @@ void MapView::updateMapAt(QMouseEvent* e) {
     window->map_click(e->x() + scroll_x, e->y() + scroll_y);
 }
 
+
 void MapView::mouseReleaseEvent(QMouseEvent* e) {
-    dragging = false;
+    if (e->button() == Qt::LeftButton) {
+        dragging = false;
+    }
 }
 
 void MapView::mousePressEvent(QMouseEvent* e) {
     if (e->button() == Qt::LeftButton) {
         dragging = true;
+        window->start_drag();
+
+        updateMapAt(e);
     }
-    updateMapAt(e);
 }

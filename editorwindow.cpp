@@ -1,6 +1,7 @@
 /* editorwindow.cpp
  * implementation fle for the main editor window */
 
+#include <cstddef>
 #include <stdio.h>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -31,8 +32,6 @@ EditorWindow::EditorWindow(QApplication* app) {
     just_saved = true;
     zoom_factor = 2;
     filename_valid = false;
-
-
 }
 
 /* set the map and palette areas */
@@ -350,7 +349,7 @@ void EditorWindow::map_click(int x, int y) {
     y /= zoom_factor;
 
     /* if the click is out of bounds, then bail */
-    if (x > (map->get_width() * 8) || y > (map->get_height() * 8)) {
+    if (x >= (map->get_width() * 8) || x < 0 || y > (map->get_height() * 8)) {
         return;
     }
 
@@ -368,8 +367,16 @@ void EditorWindow::map_click(int x, int y) {
         updateTilePreviewIcon();
     }
     else {
-        map->set_tile(tile, current_tile);
-        refresh_map();
+        if (map->get_tile(tile) != current_tile) {
+            map->set_tile(tile, current_tile);
+            refresh_map();
+        }
+    }
+}
+
+void EditorWindow::start_drag() {
+    if (map != NULL) {
+        map->start_drag();
     }
 }
 

@@ -292,16 +292,18 @@ void Map::write(const std::string& filename) {
     fclose(f);
 }
 
-/* modify the tile */
-void Map::set_tile(int index, int tile_no) {
-    /* save state */
+/* pushes map state to undo stack when drag is started */
+void Map::start_drag() {
     int* temp = new int[width * height];
     for (int i = 0; i < width * height; i++) {
         temp[i] = tiles[i];
     }
-    undo_stack.push(temp);
 
-    /* and make the change */
+    undo_stack.push(temp);
+}
+
+/* modify the tile */
+void Map::set_tile(int index, int tile_no) {
     tiles[index] = tile_no; 
 }
 
